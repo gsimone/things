@@ -1,8 +1,8 @@
 {
-  "name": "@gsimone/leva-bitmask",
+  "name": "@gsimone/leva-plugin-bitmask",
   "version": "0.0.1",
-  "main": "dist/gsimone-leva-bitmask.cjs.js",
-  "module": "dist/gsimone-leva-bitmask.esm.js",
+  "main": "dist/gsimone-leva-plugin-bitmask.cjs.js",
+  "module": "dist/gsimone-leva-plugin-bitmask.esm.js",
   "license": "MIT",
   "devDependencies": {
     "@react-three/fiber": "^8.0.7",

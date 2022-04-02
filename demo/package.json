@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@gsimone/r3f-layers": "*",
-    "@gsimone/leva-bitmask": "*",
+    "@gsimone/leva-plugin-bitmask": "*",
 
     "@react-three/drei": "^9.0.1",
     "@react-three/fiber": "^8.0.7",

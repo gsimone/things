@@ -2,7 +2,9 @@
 
 ## Layers
 
-Simple helper for three's Layers, lets you set an object's layers in a declarative manner:
+`yarn add @gsimone/r3f-layers`
+
+
 
 ```js
 <mesh>
@@ -14,6 +16,8 @@ Simple helper for three's Layers, lets you set an object's layers in a declarati
 # Leva
 
 ## BitMask
+
+`yarn add @gsimone/leva-plugin-bitmask`
 
 Plugin to add a bitmask-type input. Returns a bitmask object from [bitmaskjs](https://www.npmjs.com/package/bitmaskjs) with an additional `layersArray` property to get an array compatible with the [🔗 Layers r3f component](https://github.com/gsimone/things#layers)
 
