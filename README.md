@@ -20,8 +20,11 @@ Plugin to add a bitmask-type input. Returns a bitmask object from [bitmaskjs](ht
 ```js
 const { layers } = useControls({
   layers: bitmask({
-    value: [1], // sets first bit to 1
+    value: [1, 0, 1], // sets first bit to 1, second to 0, third to 1
     size: 16
+  }),
+  layers2: bitmask({
+    value: 3, // sets the integer of the bitmask to 3, equivalent to [1, 1]
   })  
 })
 
