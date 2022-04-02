@@ -34,10 +34,9 @@ function App() {
   const { layers } = useControls({
     layers: bitmask({
       size: 8,
-      value: [1]
+      value: [1, 1]
     }),
   });
-
   return (
     <Canvas>
       <El layers={[0]} position-x={-4} />
@@ -45,7 +44,7 @@ function App() {
       <El layers={2} position-x={4} />
 
       <PerspectiveCamera makeDefault position={[0, 0, 10]}>
-        <Layers layers={[0, 1, 2]} />
+        <Layers layers={layers.layersArray} />
       </PerspectiveCamera>
 
       <color attach="background" args={["#080406"]} />

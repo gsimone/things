@@ -1,6 +1,6 @@
 import { createPlugin, useInputContext, Components, styled } from "leva/plugin";
 
-import Bitmask from 'bitmaskjs'
+import Bitmask from "bitmaskjs";
 import { useCallback, useMemo } from "react";
 
 const { Label, Row } = Components;
@@ -22,34 +22,40 @@ const Button = styled("div", {
     selected: {
       true: {
         background: "$accent2",
-        color: "$highlight3"
-      }
-    }
-  }
+        color: "$highlight3",
+      },
+    },
+  },
 });
+
+const getLayersListFromBitmask = (bitmask: Bitmask, size = 8) => {
+  const layers = [];
+  for (let i = 0; i < size; i++) {
+    bitmask.hasBit(i) && layers.push(i);
+  }
+  return layers;
+};
 
 const BitMaskPlugin = () => {
   const props = useInputContext<{
-    value: number;
+    value: Bitmask;
     settings: { size: number };
   }>();
   const { label, value, onUpdate, settings } = props;
 
-  const bitmask = useMemo(() => new Bitmask(value, settings.size), [value, settings.size]);
-  
-  const handleClick = useCallback((i: number) => {
-
-    const bitmask = new Bitmask(value, settings.size)
-    bitmask.setBit(i, !bitmask.hasBit(i))
-    onUpdate(bitmask.getInteger());
-  }, [value])
+  const handleClick = useCallback(
+    (i: number) => {
+      const bitmask = value;
+      bitmask.setBit(i, !bitmask.hasBit(i));
+      onUpdate(bitmask.getInteger());
+    },
+    [value]
+  );
 
   return (
     <>
       <Row input>
-        <Label>
-          {label}
-        </Label>
+        <Label>{label}</Label>
         <div
           style={{
             display: "grid",
@@ -60,12 +66,12 @@ const BitMaskPlugin = () => {
             return (
               <Button
                 onClick={() => {
-                  handleClick(i)
+                  handleClick(i);
                 }}
-                selected={!!bitmask.hasBit(i)}
+                selected={!!value.hasBit(i)}
                 key={i}
               >
-                {bitmask.hasBit(i) ? 1 : 0}
+                {value.hasBit(i) ? 1 : 0}
               </Button>
             );
           })}
@@ -76,8 +82,17 @@ const BitMaskPlugin = () => {
 };
 
 export const bitmask = createPlugin({
-  sanitize: (v, s) => v,
-  format: (v) => v,
-  normalize: ({ value, size }) => ({ value, settings: { size } }),
+  sanitize: (v, s) => {
+    const newValue = new Bitmask(v)
+    newValue.layersArray = getLayersListFromBitmask(newValue);
+
+    return newValue;
+  },
+  normalize: ({ value, size }) => {
+    const newValue = new Bitmask(value)
+    newValue.layersArray = getLayersListFromBitmask(newValue);
+
+    return { value: newValue, settings: { size } };
+  },
   component: BitMaskPlugin,
 });
