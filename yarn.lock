@@ -1651,11 +1651,6 @@ bidi-js@^1.0.2:
   dependencies:
     require-from-string "^2.0.2"
 
-bitmask@^0.6.1:
-  version "0.6.1"
-  resolved "https://registry.yarnpkg.com/bitmask/-/bitmask-0.6.1.tgz#322247860a444d53e1539a80c0c3472a4bd881e4"
-  integrity sha1-MiJHhgpETVPhU5qAwMNHKkvYgeQ=
-
 bitmaskjs@^0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/bitmaskjs/-/bitmaskjs-0.1.2.tgz#9c3ae72fc3a400af0ae16d1d47af0e864de4dce1"

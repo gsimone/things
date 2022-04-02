@@ -20,7 +20,7 @@
     "three": "^0.139.2"
   },
   "dependencies": {
-    "bitmask": "^0.6.1",
+    "bitmaskjs": "^0.1.2",
     "leva": "^0.9.23"
   }
 }
