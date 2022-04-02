@@ -1,3 +1,22 @@
+# Vanilla
+
+## Bitmask
+
+```bash
+yarn add @gsimone/bitmask
+```
+
+Tiny library for bitmasks.
+
+```js
+const bitmask = new Bitmask([1, 0, 1], 16)
+
+bitmask
+  .setBit(1, 1)
+  .clearBit(2)
+  .getBits()
+```
+
 # React Three Fiber
 
 ## Layers
