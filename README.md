@@ -25,7 +25,7 @@ const { layers } = useControls({
   })  
 })
 
-useContro
+layers.layersArray // [0]
 ```
 
 **TODO**
