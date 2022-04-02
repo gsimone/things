@@ -1,0 +1,22 @@
+{
+  "name": "r3f-layers",
+  "version": "0.0.1",
+  "main": "dist/r3f-layers.cjs.js",
+  "module": "dist/r3f-layers.esm.js",
+  "license": "MIT",
+  "devDependencies": {
+    "@react-three/fiber": "^8.0.7",
+    "@types/react": "^17.0.43",
+    "@types/react-dom": "^17.0.14",
+    "@types/three": "^0.139.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "three": "^0.139.2"
+  },
+  "peerDependencies": {
+    "@react-three/fiber": "^8.0.7",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "three": "^0.139.2"
+  }
+}
