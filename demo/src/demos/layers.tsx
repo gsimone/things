@@ -1,7 +1,7 @@
 import { Canvas, useFrame } from "@react-three/fiber";
 
 import { Layers } from "@gsimone/r3f-layers";
-import {bitmask} from '@gsimone/leva-bitmask'
+import {bitmask} from '@gsimone/leva-plugin-bitmask'
 import { FC, useRef } from "react";
 import { Mesh } from "three";
 import { PerspectiveCamera } from "@react-three/drei";
