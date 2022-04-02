@@ -3,7 +3,7 @@
 ## Layers
 
 ```bash
-yarn add @gsimone/r3f-layers`
+yarn add @gsimone/r3f-layers
 ```
 
 
