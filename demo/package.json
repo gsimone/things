@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@gsimone/r3f-layers": "*",
+    "@gsimone/smoothdamp": "*",
     "@gsimone/leva-plugin-bitmask": "*",
 
     "@react-three/drei": "^9.0.1",
