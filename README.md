@@ -16,7 +16,7 @@ yarn add @gsimone/r3f-layers`
 
 # Leva
 
-## BitMask
+## bitmask plugin
 
 ```bash
 yarn add @gsimone/leva-plugin-bitmask
