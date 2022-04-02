@@ -9,7 +9,7 @@ export class SmoothDamp {
     this.maxSpeed = maxSpeed;
   }
 
-  do(current: number, target: number, deltaTime: number) {
+  get(current: number, target: number, deltaTime: number) {
     // Based on Game Programming Gems 4 Chapter 1.10
     this.smoothTime = Math.max(0.0001, this.smoothTime);
     const omega = 2 / this.smoothTime;

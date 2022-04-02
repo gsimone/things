@@ -10,7 +10,7 @@ const SmoothElement = () => {
 
   useFrame(({ clock }, delta) => {
     const x = Math.sin( clock.getElapsedTime() * 2 ) * 5
-    $ref.current.position.x = smoothdamp.do($ref.current.position.x, x, delta);
+    $ref.current.position.x = smoothdamp.get($ref.current.position.x, x, delta);
   });
 
   return (
