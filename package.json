@@ -27,6 +27,7 @@
     "demo": "cd demo && yarn dev"
   },
   "dependencies": {
+    "@changesets/cli": "^2.22.0",
     "leva": "^0.9.23"
   }
 }

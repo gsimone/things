@@ -1,7 +1,7 @@
 import { createPlugin, useInputContext, Components, styled } from "leva/plugin";
 
 import Bitmask from "bitmaskjs";
-import { useCallback, useMemo } from "react";
+import { useCallback } from "react";
 
 const { Label, Row } = Components;
 
