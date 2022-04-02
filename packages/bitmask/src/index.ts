@@ -11,6 +11,10 @@ export class Bitmask {
     }
   }
 
+  set(value: number) {
+    this._int = value;
+  }
+
   getBit(index: number) {
     return this._int & (1 << index) ? 1 : 0;
   }
@@ -49,6 +53,6 @@ export class Bitmask {
       .padStart(this.size, "0")
       .split("")
       .reverse()
-      .map(Number) as Bit[]
+      .map(Number) as Bit[];
   }
 }

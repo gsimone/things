@@ -49,9 +49,16 @@ const BitMaskPlugin = () => {
   const { label, value, onUpdate, settings } = props;
 
   const handleClick = useCallback(
-    (i: number) => {
+    (i: number, shift: boolean) => {
       const bitmask = new Bitmask(value.getInt());
-      bitmask.setBit(i, !bitmask.getBit(i));
+
+      if (shift) {
+        bitmask.set(0)
+        bitmask.setBit(i, true)
+      } else {
+        bitmask.setBit(i, !bitmask.getBit(i));
+      }
+      
       onUpdate(bitmask.getInt());
     },
     [value]
@@ -65,13 +72,14 @@ const BitMaskPlugin = () => {
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(8, 1fr)",
+            userSelect: "none"
           }}
         >
           {[...new Array(settings.size)].map((_, i) => {
             return (
               <Button
-                onClick={() => {
-                  handleClick(i);
+                onClick={(e) => {
+                  handleClick(i, e.shiftKey);
                 }}
                 selected={!!value.getBit(i)}
                 key={i}

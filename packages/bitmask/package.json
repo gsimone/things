@@ -1,6 +1,6 @@
 {
   "name": "@gsimone/bitmask",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "main": "dist/gsimone-bitmask.cjs.js",
   "module": "dist/gsimone-bitmask.esm.js",
   "license": "MIT"

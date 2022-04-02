@@ -31,7 +31,7 @@ function App() {
   const { layers, layers2 } = useControls({
     layers: bitmask({
       size: 8,
-      value: [1, 1],
+      value: 3,
     }),
     layers2: bitmask({
       value: [0, 0, 1, 1],
