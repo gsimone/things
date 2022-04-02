@@ -1,13 +1,12 @@
 import { Canvas, useFrame } from "@react-three/fiber";
 
 import { Layers } from "@gsimone/r3f-layers";
-import {bitmask} from '@gsimone/leva-plugin-bitmask'
+import { bitmask } from "@gsimone/leva-plugin-bitmask";
 import { FC, useRef } from "react";
 import { Mesh } from "three";
 import { PerspectiveCamera } from "@react-three/drei";
 
 import { useControls } from "leva";
-
 
 const El: FC<{ layers: number[] | number }> = ({ layers, ...props }) => {
   const $mesh = useRef<Mesh>(null!);
@@ -28,19 +27,21 @@ const El: FC<{ layers: number[] | number }> = ({ layers, ...props }) => {
   );
 };
 
-
-
 function App() {
-  const { layers } = useControls({
+  const { layers, layers2 } = useControls({
     layers: bitmask({
       size: 8,
-      value: [1, 1]
+      value: [1, 1],
+    }),
+    layers2: bitmask({
+      value: [0, 0, 1, 1],
     }),
   });
+
   return (
     <Canvas>
       <El layers={[0]} position-x={-4} />
-      <El layers={[0, 1]} />
+      <El layers={[1]} />
       <El layers={2} position-x={4} />
 
       <PerspectiveCamera makeDefault position={[0, 0, 10]}>

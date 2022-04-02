@@ -14,6 +14,8 @@
     "@babel/preset-react": "^7.16.7",
     "@babel/preset-typescript": "^7.16.7",
     "@preconstruct/cli": "^2.1.5",
+    "@types/jest": "^27.4.1",
+    "babel-jest": "^27.5.1",
     "typescript": "^4.6.3"
   },
   "preconstruct": {
@@ -24,10 +26,13 @@
   "scripts": {
     "postinstall": "preconstruct dev",
     "build": "preconstruct build",
-    "demo": "cd demo && yarn dev"
+    "dev": "preconstruct dev",
+    "demo": "cd demo && yarn dev",
+    "test": "yarn jest"
   },
   "dependencies": {
     "@changesets/cli": "^2.22.0",
+    "jest": "^27.5.1",
     "leva": "^0.9.23"
   }
 }
