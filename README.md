@@ -6,6 +6,7 @@
 yarn add @gsimone/r3f-layers
 ```
 
+Simple helper for three's Layers, lets you set an object's layers in a declarative manner:
 
 ```js
 <mesh>
