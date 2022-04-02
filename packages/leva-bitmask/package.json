@@ -1,8 +1,8 @@
 {
-  "name": "@gsimone/r3f-layers",
+  "name": "@gsimone/leva-bitmask",
   "version": "0.0.1",
-  "main": "dist/gsimone-r3f-layers.cjs.js",
-  "module": "dist/gsimone-r3f-layers.esm.js",
+  "main": "dist/gsimone-leva-bitmask.cjs.js",
+  "module": "dist/gsimone-leva-bitmask.esm.js",
   "license": "MIT",
   "devDependencies": {
     "@react-three/fiber": "^8.0.7",
@@ -18,5 +18,9 @@
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "three": "^0.139.2"
+  },
+  "dependencies": {
+    "bitmask": "^0.6.1",
+    "leva": "^0.9.23"
   }
 }
