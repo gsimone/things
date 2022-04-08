@@ -1,13 +1,7 @@
 export class SmoothDamp {
   currentVelocity: number = 0;
 
-  maxSpeed = 1;
-  smoothTime = 1;
-
-  constructor(smoothTime: number, maxSpeed: number) {
-    this.smoothTime = smoothTime;
-    this.maxSpeed = maxSpeed;
-  }
+  constructor(public smoothTime: number = 1, public maxSpeed: number = 1) {}
 
   get(current: number, target: number, deltaTime: number) {
     // Based on Game Programming Gems 4 Chapter 1.10
