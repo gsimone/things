@@ -1,4 +1,4 @@
-[![Node.js CI status](https://github.com/gsimone/gsimone-things/workflows/Node.js%20CI/badge.svg)](https://github.com/gsimone/gsimone-things/actions)
+[![Node.js CI](https://github.com/gsimone/things/actions/workflows/node.js.yml/badge.svg)](https://github.com/gsimone/things/actions/workflows/node.js.yml)
 
 # Vanilla
 
