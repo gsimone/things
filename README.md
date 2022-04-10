@@ -18,6 +18,28 @@ const bitmask = new Bitmask([1, 0, 1], 16);
 bitmask.setBit(1, 1).clearBit(2).getBits();
 ```
 
+# Three
+
+## RaycasterHelper
+
+[![BundlePhobia](https://badgen.net/bundlephobia/minzip/@gsimone/three-raycaster-helper)](https://bundlephobia.com/package/@gsimone/three-raycaster-helper)
+
+```bash
+yarn add @gsimone/three-raycaster-helper
+```
+
+Visualize a Raycaster (ray and near/far) and, optionally, its hits.
+
+```js
+import { RaycasterHelper } from '@gsimone/three-raycaster-helper'
+
+const raycaster = new Raycaster(origin, direction, 0.5, 10)
+const helper = new RaycasterHelper(raycaster)
+
+const hits = raycaster.intersectObjects( scene.children )
+helper.hits = hits
+```
+
 # React Three Fiber
 
 ## Layers
