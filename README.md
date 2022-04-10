@@ -10,7 +10,7 @@
 yarn add @gsimone/three-raycaster-helper
 ```
 
-![](https://github.com/gsimone/things/blob/feat/raycaster-helper/_images_/raycaster.png?raw=true)
+![](https://github.com/gsimone/things/blob/main/_images_/raycaster.png?raw=true)
 
 Visualize a Raycaster (ray and near/far) and, optionally, its hits.
 
@@ -52,7 +52,7 @@ Simple helper for three's Layers, lets you set an object's layers in a declarati
 yarn add @gsimone/leva-plugin-bitmask
 ```
 
-![](https://github.com/gsimone/things/blob/feat/raycaster-helper/_images_/leva-bitmask.png?raw=true)
+![](https://github.com/gsimone/things/blob/main/_images_/leva-bitmask.png?raw=true)
 
 Plugin to add a bitmask-type input. Returns a bitmask object from [bitmaskjs](https://www.npmjs.com/package/bitmaskjs) with an additional `layersArray` property to get an array compatible with the [🔗 Layers r3f component](https://github.com/gsimone/things#layers)
 
