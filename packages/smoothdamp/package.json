@@ -1,0 +1,16 @@
+{
+  "name": "@gsimone/smoothdamp",
+  "version": "0.0.1",
+  "main": "dist/gsimone-smoothdamp.cjs.js",
+  "module": "dist/gsimone-smoothdamp.esm.js",
+  "license": "MIT",
+  "peerDependencies": {
+    "three": "^0.139.2"
+  },
+  "preconstruct": {
+    "entrypoints": [
+      "index.ts",
+      "three.ts"
+    ]
+  }
+}

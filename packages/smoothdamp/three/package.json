@@ -1,0 +1,4 @@
+{
+  "main": "dist/gsimone-smoothdamp-three.cjs.js",
+  "module": "dist/gsimone-smoothdamp-three.esm.js"
+}
