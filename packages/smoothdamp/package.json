@@ -1,6 +1,6 @@
 {
   "name": "@gsimone/smoothdamp",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "main": "dist/gsimone-smoothdamp.cjs.js",
   "module": "dist/gsimone-smoothdamp.esm.js",
   "license": "MIT",
@@ -12,5 +12,8 @@
       "index.ts",
       "three.ts"
     ]
+  },
+  "devDependencies": {
+    "three": "^0.139.2"
   }
 }

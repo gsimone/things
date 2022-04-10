@@ -8,31 +8,39 @@
     "packages/*",
     "demo"
   ],
-  "devDependencies": {
-    "@babel/core": "^7.17.8",
-    "@babel/preset-env": "^7.16.11",
-    "@babel/preset-react": "^7.16.7",
-    "@babel/preset-typescript": "^7.16.7",
-    "@preconstruct/cli": "^2.1.5",
-    "@types/jest": "^27.4.1",
-    "babel-jest": "^27.5.1",
-    "typescript": "^4.6.3"
-  },
   "preconstruct": {
     "packages": [
       "packages/*"
     ]
   },
   "scripts": {
+    "ci": "preconstruct validate && manypkg check && yarn build",
+    "release": "yarn ci && changeset publish --access public",
     "postinstall": "preconstruct dev",
     "build": "preconstruct build",
     "dev": "preconstruct dev",
     "demo": "cd demo && yarn dev",
-    "test": "yarn jest"
+    "test": "yarn jest",
+    "prepare": "husky install"
   },
   "dependencies": {
+    "@babel/core": "^7.17.8",
+    "@babel/preset-env": "^7.16.11",
+    "@babel/preset-react": "^7.16.7",
+    "@babel/preset-typescript": "^7.16.7",
     "@changesets/cli": "^2.22.0",
+    "@manypkg/cli": "^0.19.1",
+    "@preconstruct/cli": "^2.1.5",
+    "@types/jest": "^27.4.1",
+    "babel-jest": "^27.5.1",
+    "husky": ">=6",
     "jest": "^27.5.1",
-    "leva": "^0.9.23"
+    "leva": "^0.9.23",
+    "lint-staged": ">=10",
+    "prettier": "^2.6.2",
+    "typescript": "^4.6.3"
+  },
+  "lint-staged": {
+    "packages/**/src/*.{ts,tsx,css,md}": "prettier --write"
   }
 }

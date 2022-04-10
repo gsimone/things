@@ -6,7 +6,7 @@ export class SmoothDampVectors {
 
   dampers: SmoothDamp[] = [];
 
-  constructor(smoothTime: number = 1,maxSpeed: number = 1) {
+  constructor(smoothTime: number = 1, maxSpeed: number = 1) {
     this.dampers = [
       new SmoothDamp(smoothTime, maxSpeed),
       new SmoothDamp(smoothTime, maxSpeed),
@@ -29,5 +29,4 @@ export class SmoothDampVectors {
 
     return this._v;
   }
-
 }
