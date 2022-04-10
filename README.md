@@ -1,21 +1,27 @@
 [![Node.js CI](https://github.com/gsimone/things/actions/workflows/node.js.yml/badge.svg)](https://github.com/gsimone/things/actions/workflows/node.js.yml)
 
-# Vanilla
+# Three
 
-## Bitmask
+## RaycasterHelper
 
-[![BundlePhobia](https://badgen.net/bundlephobia/minzip/@gsimone/bitmask)](https://bundlephobia.com/package/@gsimone/bitmask)
+[![BundlePhobia](https://badgen.net/bundlephobia/minzip/@gsimone/three-raycaster-helper)](https://bundlephobia.com/package/@gsimone/three-raycaster-helper)
 
 ```bash
-yarn add @gsimone/bitmask
+yarn add @gsimone/three-raycaster-helper
 ```
 
-Tiny library for bitmasks.
+![](https://github.com/gsimone/things/blob/feat/raycaster-helper/_images_/raycaster.png?raw=true)
+
+Visualize a Raycaster (ray and near/far) and, optionally, its hits.
 
 ```js
-const bitmask = new Bitmask([1, 0, 1], 16);
+import { RaycasterHelper } from '@gsimone/three-raycaster-helper'
 
-bitmask.setBit(1, 1).clearBit(2).getBits();
+const raycaster = new Raycaster(origin, direction, 0.5, 10)
+const helper = new RaycasterHelper(raycaster)
+
+const hits = raycaster.intersectObjects( scene.children )
+helper.hits = hits
 ```
 
 # React Three Fiber
@@ -46,6 +52,8 @@ Simple helper for three's Layers, lets you set an object's layers in a declarati
 yarn add @gsimone/leva-plugin-bitmask
 ```
 
+![](https://github.com/gsimone/things/blob/feat/raycaster-helper/_images_/leva-bitmask.png?raw=true)
+
 Plugin to add a bitmask-type input. Returns a bitmask object from [bitmaskjs](https://www.npmjs.com/package/bitmaskjs) with an additional `layersArray` property to get an array compatible with the [🔗 Layers r3f component](https://github.com/gsimone/things#layers)
 
 ```js
@@ -65,3 +73,22 @@ layers.layersArray; // [0]
 **TODO**
 
 Add alternative APIs to set the initial value.
+
+
+# Vanilla
+
+## Bitmask
+
+[![BundlePhobia](https://badgen.net/bundlephobia/minzip/@gsimone/bitmask)](https://bundlephobia.com/package/@gsimone/bitmask)
+
+```bash
+yarn add @gsimone/bitmask
+```
+
+Tiny library for bitmasks.
+
+```js
+const bitmask = new Bitmask([1, 0, 1], 16);
+
+bitmask.setBit(1, 1).clearBit(2).getBits();
+```
