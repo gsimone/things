@@ -5,7 +5,7 @@ import SmoothDemo from './demos/smoothdamp'
 
 function App() {
   return (
-    <SmoothDemo />
+    <LayersDemo />
   );
 }
 
