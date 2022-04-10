@@ -4,6 +4,8 @@
 
 ## Bitmask
 
+[![BundlePhobia](https://badgen.net/bundlephobia/minzip/@gsimone/bitmask)](https://bundlephobia.com/package/@gsimone/bitmask)
+
 ```bash
 yarn add @gsimone/bitmask
 ```
@@ -20,6 +22,8 @@ bitmask.setBit(1, 1).clearBit(2).getBits();
 
 ## Layers
 
+[![BundlePhobia](https://badgen.net/bundlephobia/minzip/@gsimone/r3f-layers)](https://bundlephobia.com/package/@gsimone/r3f-layers)
+
 ```bash
 yarn add @gsimone/r3f-layers
 ```
@@ -35,6 +39,8 @@ Simple helper for three's Layers, lets you set an object's layers in a declarati
 # Leva
 
 ## bitmask plugin
+
+[![BundlePhobia](https://badgen.net/bundlephobia/minzip/@gsimone/leva-plugin-bitmask)](https://bundlephobia.com/package/@gsimone/leva-plugin-bitmask)
 
 ```bash
 yarn add @gsimone/leva-plugin-bitmask
