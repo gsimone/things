@@ -1,0 +1,13 @@
+{
+  "name": "@gsimone/three-raycaster-helper",
+  "version": "0.0.1",
+  "license": "MIT",
+  "main": "dist/gsimone-three-raycaster-helper.cjs.js",
+  "module": "dist/gsimone-three-raycaster-helper.esm.js",
+  "peerDependencies": {
+    "three": "^0.139.2"
+  },
+  "devDependencies": {
+    "three": "^0.139.2"
+  }
+}
