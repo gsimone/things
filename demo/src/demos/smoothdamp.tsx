@@ -19,7 +19,7 @@ const cameraNDCToWorld = (
   var distance = -camera.position.z / _v.z;
   dest.copy(camera.position).add(_v.multiplyScalar(distance));
 
-  return dest
+  return dest;
 };
 
 const SmoothElement = () => {
@@ -27,9 +27,21 @@ const SmoothElement = () => {
   const [smoothDampV] = useState(() => new SmoothDampVectors(0.3, 100));
 
   useControls({
-    smoothTime: {value:0.3, min: 0.001, max: 2, step: 0.01, onChange: v => smoothDampV.smoothTime = v},
-    maxSpeed: {value:100, min: 0, max: 1000, step: 1, onChange: v => smoothDampV.maxSpeed = v},
-  })
+    smoothTime: {
+      value: 0.3,
+      min: 0.001,
+      max: 2,
+      step: 0.01,
+      onChange: (v) => (smoothDampV.smoothTime = v),
+    },
+    maxSpeed: {
+      value: 100,
+      min: 0,
+      max: 1000,
+      step: 1,
+      onChange: (v) => (smoothDampV.maxSpeed = v),
+    },
+  });
 
   const dest = new Vector3();
   useFrame(({ pointer, camera }, delta) => {
@@ -43,7 +55,7 @@ const SmoothElement = () => {
   return (
     <mesh ref={$ref} position-y={2}>
       <meshBasicMaterial side={DoubleSide} color="#0EEC82" />
-      <sphereGeometry args={[.5, 32, 32]} />
+      <sphereGeometry args={[0.5, 32, 32]} />
     </mesh>
   );
 };
@@ -55,17 +67,13 @@ const LerpElement = () => {
   useFrame(({ camera, pointer }) => {
     cameraNDCToWorld(camera, pointer, dest);
 
-    $ref.current.position.lerpVectors(
-      $ref.current.position,
-      dest,
-      0.1
-    );
+    $ref.current.position.lerpVectors($ref.current.position, dest, 0.1);
   });
 
   return (
     <mesh ref={$ref} position-y={-2}>
       <meshBasicMaterial side={DoubleSide} color="#ff005b" />
-      <sphereGeometry args={[.5, 32, 32]} />
+      <sphereGeometry args={[0.5, 32, 32]} />
     </mesh>
   );
 };

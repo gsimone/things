@@ -53,12 +53,12 @@ const BitMaskPlugin = () => {
       const bitmask = new Bitmask(value.getInt());
 
       if (shift) {
-        bitmask.set(0)
-        bitmask.setBit(i, true)
+        bitmask.set(0);
+        bitmask.setBit(i, true);
       } else {
         bitmask.setBit(i, !bitmask.getBit(i));
       }
-      
+
       onUpdate(bitmask.getInt());
     },
     [value]
@@ -72,7 +72,7 @@ const BitMaskPlugin = () => {
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(8, 1fr)",
-            userSelect: "none"
+            userSelect: "none",
           }}
         >
           {[...new Array(settings.size)].map((_, i) => {

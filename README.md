@@ -1,3 +1,5 @@
+[![Node.js CI status](https://github.com/gsimone/gsimone-things/workflows/Node.js%20CI/badge.svg)](https://github.com/gsimone/gsimone-things/actions)
+
 # Vanilla
 
 ## Bitmask
@@ -9,12 +11,9 @@ yarn add @gsimone/bitmask
 Tiny library for bitmasks.
 
 ```js
-const bitmask = new Bitmask([1, 0, 1], 16)
+const bitmask = new Bitmask([1, 0, 1], 16);
 
-bitmask
-  .setBit(1, 1)
-  .clearBit(2)
-  .getBits()
+bitmask.setBit(1, 1).clearBit(2).getBits();
 ```
 
 # React Three Fiber
@@ -33,7 +32,6 @@ Simple helper for three's Layers, lets you set an object's layers in a declarati
 </mesh>
 ```
 
-
 # Leva
 
 ## bitmask plugin
@@ -48,14 +46,14 @@ Plugin to add a bitmask-type input. Returns a bitmask object from [bitmaskjs](ht
 const { layers } = useControls({
   layers: bitmask({
     value: [1, 0, 1], // sets first bit to 1, second to 0, third to 1
-    size: 16
+    size: 16,
   }),
   layers2: bitmask({
     value: 3, // sets the integer of the bitmask to 3, equivalent to [1, 1]
-  })  
-})
+  }),
+});
 
-layers.layersArray // [0]
+layers.layersArray; // [0]
 ```
 
 **TODO**

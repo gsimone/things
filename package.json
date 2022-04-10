@@ -20,7 +20,8 @@
     "build": "preconstruct build",
     "dev": "preconstruct dev",
     "demo": "cd demo && yarn dev",
-    "test": "yarn jest"
+    "test": "yarn jest",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@babel/core": "^7.17.8",
@@ -34,6 +35,12 @@
     "babel-jest": "^27.5.1",
     "jest": "^27.5.1",
     "leva": "^0.9.23",
-    "typescript": "^4.6.3"
+    "typescript": "^4.6.3",
+    "husky": ">=6",
+    "lint-staged": ">=10",
+    "prettier": "^2.6.2"
+  },
+  "lint-staged": {
+    "packages/**/src/*.{ts,tsx,css,md}": "prettier --write"
   }
 }
