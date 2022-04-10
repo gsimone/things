@@ -1,23 +1,5 @@
 [![Node.js CI](https://github.com/gsimone/things/actions/workflows/node.js.yml/badge.svg)](https://github.com/gsimone/things/actions/workflows/node.js.yml)
 
-# Vanilla
-
-## Bitmask
-
-[![BundlePhobia](https://badgen.net/bundlephobia/minzip/@gsimone/bitmask)](https://bundlephobia.com/package/@gsimone/bitmask)
-
-```bash
-yarn add @gsimone/bitmask
-```
-
-Tiny library for bitmasks.
-
-```js
-const bitmask = new Bitmask([1, 0, 1], 16);
-
-bitmask.setBit(1, 1).clearBit(2).getBits();
-```
-
 # Three
 
 ## RaycasterHelper
@@ -91,3 +73,22 @@ layers.layersArray; // [0]
 **TODO**
 
 Add alternative APIs to set the initial value.
+
+
+# Vanilla
+
+## Bitmask
+
+[![BundlePhobia](https://badgen.net/bundlephobia/minzip/@gsimone/bitmask)](https://bundlephobia.com/package/@gsimone/bitmask)
+
+```bash
+yarn add @gsimone/bitmask
+```
+
+Tiny library for bitmasks.
+
+```js
+const bitmask = new Bitmask([1, 0, 1], 16);
+
+bitmask.setBit(1, 1).clearBit(2).getBits();
+```
