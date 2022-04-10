@@ -1,5 +1,5 @@
 import '@react-three/fiber'
-import { forwardRef, useEffect, useState } from 'react'
+import React, { forwardRef, useEffect, useState } from 'react'
 import * as THREE from 'three'
 
 const bitmaskFromIndicesArray = (indices: number[]) => indices.reduce((acc, i) => acc | (1 << i), 0)
