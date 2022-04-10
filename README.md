@@ -28,6 +28,8 @@ bitmask.setBit(1, 1).clearBit(2).getBits();
 yarn add @gsimone/three-raycaster-helper
 ```
 
+![](https://github.com/gsimone/things/blob/feat/raycaster-helper/_images_/raycaster.png?raw=true)
+
 Visualize a Raycaster (ray and near/far) and, optionally, its hits.
 
 ```js
