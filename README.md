@@ -24,6 +24,34 @@ const hits = raycaster.intersectObjects( scene.children )
 helper.hits = hits
 ```
 
+## Smoothdamp
+
+[![BundlePhobia](https://badgen.net/bundlephobia/minzip/@gsimone/smoothdamp)](https://bundlephobia.com/package/@gsimone/smoothdamp)
+
+```bash
+yarn add @gsimone/smoothdamp
+```
+
+Port of Unity's SmoothDamp.
+
+```js
+import { SmoothDamp } from '@gsimone/smoothdamp'
+import { SmoothDampVectors } from '@gsimone/smoothdamp/three'
+
+const smoothDamp = new SmoothDamp(0.5, 10)
+const x = smoothDamp.get( 10, deltaTime )
+
+// using with three.js Vectors
+const mySmoothDampV = new SmoothDampVectors(0.5, 10)
+const target = new Vector3(0, 0, 0)
+const dest = new Vector3(10, 0, 0)
+
+target.copy(
+  mySmoothDampV.get( target, dest, deltaTime )
+)
+```
+
+
 # React Three Fiber
 
 ## Layers
