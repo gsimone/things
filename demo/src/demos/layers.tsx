@@ -13,7 +13,7 @@ const El: FC<{ layers: number[] | number }> = ({ layers, ...props }) => {
   const $mesh = useRef<Mesh>(null!);
 
   useFrame(({ clock }) => {
-    $mesh.current.position.y = Math.sin(clock.getElapsedTime() * .5 + $mesh.current.position.x);
+    // $mesh.current.position.y = Math.sin(clock.getElapsedTime() * .5 + $mesh.current.position.x);
     $mesh.current.rotation.z = Math.sin(clock.getElapsedTime() * .5) * Math.PI * 1;
   });
 
