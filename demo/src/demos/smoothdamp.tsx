@@ -1,6 +1,6 @@
 import { Canvas, useFrame } from "@react-three/fiber";
 import { useRef, useState } from "react";
-import { DoubleSide, MathUtils, Mesh, Vector3 } from "three";
+import { Camera, DoubleSide, MathUtils, Mesh, Vector3 } from "three";
 
 import { SmoothDampVectors } from "@gsimone/smoothdamp/three";
 import { OrbitControls } from "@react-three/drei";
@@ -8,7 +8,7 @@ import { useControls } from "leva";
 
 const _v = new Vector3();
 const cameraNDCToWorld = (
-  camera: THREE.Camera,
+  camera: Camera,
   pointer: { x: number; y: number },
   dest = new Vector3()
 ) => {
