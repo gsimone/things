@@ -1,6 +1,6 @@
 {
   "name": "@gsimone/leva-plugin-bitmask",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "main": "dist/gsimone-leva-plugin-bitmask.cjs.js",
   "module": "dist/gsimone-leva-plugin-bitmask.esm.js",
   "license": "MIT",

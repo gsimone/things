@@ -1,6 +1,6 @@
 {
   "name": "@gsimone/r3f-layers",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "main": "dist/gsimone-r3f-layers.cjs.js",
   "module": "dist/gsimone-r3f-layers.esm.js",
   "license": "MIT",

@@ -1,6 +1,6 @@
 {
   "name": "@gsimone/smoothdamp",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "main": "dist/gsimone-smoothdamp.cjs.js",
   "module": "dist/gsimone-smoothdamp.esm.js",
   "license": "MIT",
