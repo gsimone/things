@@ -1,38 +1,42 @@
 import {
-  BoxGeometry,
+  BufferAttribute,
   BufferGeometry,
   Float32BufferAttribute,
-  InstancedBufferGeometry,
   InstancedMesh,
   Line,
   LineBasicMaterial,
-  LineDashedMaterial,
-  Material,
   Mesh,
   MeshBasicMaterial,
   Object3D,
-  PlaneGeometry,
   Raycaster,
   SphereGeometry,
+  Vector3,
 } from "three";
 
 const _o = new Object3D();
-
+const _v = new Vector3();
 export class RaycasterHelper extends Object3D {
   raycaster: Raycaster;
   hits: [];
-  numberOfHitsToVisualize = 20;
 
-  origin: Mesh;
-  near: Line;
-  far: Line;
+  origin: Mesh<SphereGeometry, MeshBasicMaterial>;
+  near: Line<BufferGeometry, LineBasicMaterial>;
+  far: Line<BufferGeometry, LineBasicMaterial>;
 
-  line: Line;
-  originToNear: Line;
+  nearToFar: Line<BufferGeometry, LineBasicMaterial>;
+  originToNear: Line<BufferGeometry, LineBasicMaterial>;
 
   hitPoints: InstancedMesh;
 
-  constructor(raycaster: Raycaster) {
+  colors = {
+    near: 0xffffff,
+    far: 0xffffff,
+    originToNear: 0x333333,
+    nearToFar: 0xffffff,
+    origin: [0x0eec82, 0xff005b],
+  };
+
+  constructor(raycaster: Raycaster, public numberOfHitsToVisualize = 20) {
     super();
     this.raycaster = raycaster;
 
@@ -64,19 +68,15 @@ export class RaycasterHelper extends Object3D {
     this.far.name = "RaycasterHelper_far";
     this.far.raycast = () => null;
 
-    this.line = new Line(new BufferGeometry(), new LineBasicMaterial());
-    this.line.name = "RaycasterHelper_line";
-    this.line.raycast = () => null;
+    this.nearToFar = new Line(new BufferGeometry(), new LineBasicMaterial());
+    this.nearToFar.name = "RaycasterHelper_nearToFar";
+    this.nearToFar.raycast = () => null;
+
+    this.nearToFar.geometry.setFromPoints([_v, _v]);
 
     this.originToNear = new Line(
-      new BufferGeometry(),
-      new LineDashedMaterial({
-        color: 0x777777,
-        linewidth: 1,
-        scale: 0.1,
-        dashSize: 0.1,
-        gapSize: 0.1,
-      })
+      this.nearToFar.geometry.clone(),
+      new LineBasicMaterial()
     );
     this.originToNear.name = "RaycasterHelper_originToNear";
     this.originToNear.raycast = () => null;
@@ -89,7 +89,7 @@ export class RaycasterHelper extends Object3D {
     this.hitPoints.name = "RaycasterHelper_hits";
     this.hitPoints.raycast = () => null;
 
-    this.add(this.line);
+    this.add(this.nearToFar);
     this.add(this.originToNear);
 
     this.add(this.near);
@@ -97,7 +97,21 @@ export class RaycasterHelper extends Object3D {
 
     this.add(this.origin);
     this.add(this.hitPoints);
+
+    this.setColors();
   }
+
+  setColors = (colors?: Partial<typeof this.colors>) => {
+    const _colors = {
+      ...this.colors,
+      ...colors,
+    };
+
+    this.near.material.color.set(_colors.near);
+    this.far.material.color.set(_colors.far);
+    this.nearToFar.material.color.set(_colors.nearToFar);
+    this.originToNear.material.color.set(_colors.originToNear);
+  };
 
   update = () => {
     const origin = this.raycaster.ray.origin;
@@ -108,6 +122,7 @@ export class RaycasterHelper extends Object3D {
     this.near.position
       .copy(origin)
       .add(direction.clone().multiplyScalar(this.raycaster.near));
+
     this.far.position
       .copy(origin)
       .add(direction.clone().multiplyScalar(this.raycaster.far));
@@ -115,28 +130,23 @@ export class RaycasterHelper extends Object3D {
     this.far.lookAt(origin);
     this.near.lookAt(origin);
 
+    let pos = this.nearToFar.geometry.getAttribute(
+      "position"
+    ) as BufferAttribute;
+    // @ts-ignore
+    pos.set([...this.near.position, ...this.far.position]);
+    pos.needsUpdate = true;
+
+    pos = this.originToNear.geometry.getAttribute(
+      "position"
+    ) as BufferAttribute;
+    // @ts-ignore
+    pos.set([...origin, ...this.near.position]);
+    pos.needsUpdate = true;
+
     /**
-     * @TODO consider doing this without recreating a buffer attribute - set it instead
+     * Update hit points visualization
      */
-    this.line.geometry.setAttribute(
-      "position",
-      new Float32BufferAttribute(
-        // @ts-ignore
-        [...this.near.position, ...this.far.position],
-        3
-      )
-    );
-
-    this.originToNear.geometry.setAttribute(
-      "position",
-      // @ts-ignore
-      new Float32BufferAttribute([...origin, ...this.near.position], 3)
-    );
-
-    (this.origin.material as Material).color.set(
-      this.hits.length > 0 ? "#0EEC82" : "#ff005b"
-    );
-
     for (let i = 0; i < this.numberOfHitsToVisualize; i++) {
       const hit = this.hits?.[i];
 
@@ -154,14 +164,12 @@ export class RaycasterHelper extends Object3D {
     }
 
     this.hitPoints.instanceMatrix.needsUpdate = true;
-  };
 
-  dispose() {
-    this.near.dispose();
-    this.far.dispose();
-    this.origin.dispose();
-    this.hitPoints.dispose();
-    this.line.dispose();
-    this.originToNear.dispose();
-  }
+    /**
+     * Update the color of the origin based on wether there are hits.
+     */
+    this.origin.material.color.set(
+      this.hits.length > 0 ? this.colors.origin[0] : this.colors.origin[1]
+    );
+  };
 }
