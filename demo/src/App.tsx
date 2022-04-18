@@ -1,6 +1,6 @@
 import "./App.css";
 
-import LayersDemo from "./demos/layers/layers";
+import LayersDemo from "./demos/layers";
 
 function App() {
   return <LayersDemo />;
