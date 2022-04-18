@@ -2,12 +2,12 @@ import { Canvas, useFrame } from "@react-three/fiber";
 
 import { Layers } from "@gsimone/r3f-layers";
 import { bitmask } from "@gsimone/leva-plugin-bitmask";
+import { RaycasterHelper } from "@gsimone/three-raycaster-helper";
 import { FC, useRef, useState } from "react";
 import { DoubleSide, Mesh, Raycaster, Vector3 } from "three";
 import { OrbitControls, PerspectiveCamera, useHelper } from "@react-three/drei";
 
 import { useControls } from "leva";
-import { RaycasterHelper } from "@gsimone/three-raycaster-helper";
 
 const El: FC<{ layers: number[] | number }> = ({ layers, ...props }) => {
   const $mesh = useRef<Mesh>(null!);
