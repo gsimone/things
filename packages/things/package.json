@@ -5,10 +5,10 @@
   "module": "dist/gsimone-things.esm.js",
   "license": "MIT",
   "dependencies": {
-    "@gsimone/bitmask": "latest",
-    "@gsimone/leva-plugin-bitmask": "latest",
-    "@gsimone/r3f-layers": "latest",
-    "@gsimone/smoothdamp": "latest",
-    "@gsimone/three-raycaster-helper": "latest"
+    "@gsimone/bitmask": "0.0.1",
+    "@gsimone/leva-plugin-bitmask": "0.1.0",
+    "@gsimone/r3f-layers": "0.2.0",
+    "@gsimone/smoothdamp": "0.1.0",
+    "@gsimone/three-raycaster-helper": "0.0.1"
   }
 }
