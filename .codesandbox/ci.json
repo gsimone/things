@@ -2,6 +2,6 @@
   "packages": [
     "packages/*"
   ],
-  "sandboxes": ["jrl1f", "./demo/src/demos/*"],
+  "sandboxes": ["jrl1f", "/demo/src/demos/*"],
   "node": "14"
 }
