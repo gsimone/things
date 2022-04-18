@@ -34,7 +34,8 @@ const Ray: FC<{ layers: number[] }> = ({ layers }) => {
 
   const helper = useHelper({ current: r }, RaycasterHelper);
 
-  useFrame(({ scene }) => {
+  useFrame(({ scene, clock }) => {
+    r.ray.origin.y = Math.sin(clock.getElapsedTime()) * 2
     helper.current.hits = r.intersectObjects(scene.children);
   });
 
