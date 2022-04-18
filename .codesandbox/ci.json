@@ -1,10 +1,7 @@
 {
   "packages": [
-    "packages/bitmask",
-    "packages/leva-bitmask",
-    "packages/r3f-layers",
-    "packages/smoothdamp"
+    "packages/*"
   ],
-  "sandboxes": ["jrl1f"],
+  "sandboxes": ["jrl1f", "./demo/src/demos/*"],
   "node": "14"
 }
