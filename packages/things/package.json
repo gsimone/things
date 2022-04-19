@@ -1,0 +1,14 @@
+{
+  "name": "@gsimone/things",
+  "version": "0.0.1",
+  "main": "dist/gsimone-things.cjs.js",
+  "module": "dist/gsimone-things.esm.js",
+  "license": "MIT",
+  "dependencies": {
+    "@gsimone/bitmask": "0.0.1",
+    "@gsimone/leva-plugin-bitmask": "0.1.0",
+    "@gsimone/r3f-layers": "0.2.0",
+    "@gsimone/smoothdamp": "0.1.0",
+    "@gsimone/three-raycaster-helper": "0.0.1"
+  }
+}
