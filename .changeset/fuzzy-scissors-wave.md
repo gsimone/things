@@ -1,5 +1,0 @@
----
-"@gsimone/things": major
----
-
-release

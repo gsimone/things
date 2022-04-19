@@ -1,6 +1,6 @@
 {
   "name": "@gsimone/three-raycaster-helper",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "license": "MIT",
   "main": "dist/gsimone-three-raycaster-helper.cjs.js",
   "module": "dist/gsimone-three-raycaster-helper.esm.js",
