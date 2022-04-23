@@ -27,14 +27,14 @@ function Catenary({ p1, p2 }: { p1: Vector3; p2: Vector3 }) {
   useFrame(() => {
     const catenary = new CatenaryCurve(p1, p2, l);
 
-    const points = catenary.getPoints(1_00);
+    const points = catenary.getArray(20);
 
     if ($b.current) {
       $b.current.setAttribute("position", new BufferAttribute(points, 3));
     }
 
     if ($tube.current) {
-      $tube.current.geometry = new TubeGeometry(catenary, 100, 0.1, 20, false);
+      $tube.current.geometry = new TubeGeometry(catenary, 100, 0.1, 10, false);
     }
   });
 
@@ -76,12 +76,12 @@ function App() {
       orthographic
       camera={{ position: [0, 0, 100], zoom: 50 }}
     >
-      <group position-y={-3}>
+      <group position-y={-1}>
         <Catenary p1={new Vector3(0, 3, 0)} p2={new Vector3(5, 6, 5)} />
-        <Catenary p1={new Vector3(0, 3, 0)} p2={new Vector3(-6, 0, 6)} />
+        <Catenary p1={new Vector3(0, 3, 0)} p2={new Vector3(-6.3, 0, 6)} />
         <Catenary p1={new Vector3(0, 3, 0)} p2={new Vector3(-4, 0, -6)} />
-        <Catenary p1={new Vector3(0, 3, 0)} p2={new Vector3(7, 0, -6)} />
-        <Catenary p1={new Vector3(0, 3, 0)} p2={new Vector3(7, 4, -6)} />
+        <Catenary p1={new Vector3(0, 3, 0)} p2={new Vector3(7.5, 0, -6)} />
+        <Catenary p1={new Vector3(0, 3, 0)} p2={new Vector3(3, 4, -7)} />
         <Catenary p1={new Vector3(0, 3, 0)} p2={new Vector3(-8, 4, -6)} />
       </group>
 

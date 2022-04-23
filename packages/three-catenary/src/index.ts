@@ -38,14 +38,14 @@ export class CatenaryCurve extends Curve<Vector3> {
     this._pb = (pa.z > pb.z ? pa : pb).clone();
 
     const dir = new Vector3().subVectors(this._pb, this._pa).normalize();
-
     this.angle = dir.angleTo(AXIS_X);
 
     const transformMatrix = new Matrix4();
 
     /**
-     * translate points so that the first one is at origin
+     * Translate points so that the first one is at origin
      */
+    // @ts-expect-error Vectors are iterable in lates three
     const tm1 = new Matrix4().makeTranslation(...new Vector3().sub(this._pa));
 
     /**
@@ -88,8 +88,9 @@ export class CatenaryCurve extends Curve<Vector3> {
     return optionalTarget.set(p, py, pz).applyMatrix4(this.invertedMatrix);
   }
 
-  getPoints(N: number): Float32Array {
+  getArray(N: number): Float32Array {
     const points = new Float32BufferAttribute(N * 3, 3, false);
+
     for (let i = 1; i < N - 1; i++) {
       const t = i / N;
       const p = MathUtils.lerp(this._pa.x, this._pb.x, t);
@@ -107,5 +108,21 @@ export class CatenaryCurve extends Curve<Vector3> {
     points.applyMatrix4(this.invertedMatrix);
 
     return points.array as Float32Array;
+  }
+
+  getPoints(N: number) {
+    const points = new Array(N);
+
+    for (let i = 0; i < N; i++) {
+      const t = i / N;
+      const p = MathUtils.lerp(this._pa.x, this._pb.x, t);
+      const pz = MathUtils.lerp(this._pa.z, this._pb.z, t);
+
+      points[i] = new Vector3(p, this.getCatenaryValue(p), pz).applyMatrix4(
+        this.invertedMatrix
+      );
+    }
+
+    return points;
   }
 }
