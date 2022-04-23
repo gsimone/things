@@ -4902,11 +4902,6 @@ lru-cache@^7.4.0:
   resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-7.8.1.tgz#68ee3f4807a57d2ba185b7fd90827d5c21ce82bb"
   integrity sha512-E1v547OCgJvbvevfjgK9sNKIVXO96NnsTsFPBlg4ZxjhsJSODoH9lk8Bm0OxvHNm6Vm5Yqkl/1fErDxhYL8Skg==
 
-maath@^0.0.2:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/maath/-/maath-0.0.2.tgz#14ecbac2dbd69f674071a4bfdb539f15db534c81"
-  integrity sha512-GF8JisJYw45KUzdQXsr3jVfnNx6Ey/Ih1hro1Hd86wl2XlkTk38HMNm7ovuigBRSCPGaFA4ZMGlqRYTvMmo2Sg==
-
 magic-string@^0.25.7:
   version "0.25.9"
   resolved "https://registry.yarnpkg.com/magic-string/-/magic-string-0.25.9.tgz#de7f9faf91ef8a1c91d02c2e5314c8277dbcdd1c"
