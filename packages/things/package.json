@@ -9,6 +9,7 @@
     "@gsimone/leva-plugin-bitmask": "0.1.0",
     "@gsimone/r3f-layers": "0.2.0",
     "@gsimone/smoothdamp": "0.1.0",
+    "@gsimone/three-catenary": "0.1.0",
     "@gsimone/three-raycaster-helper": "0.1.0"
   }
 }
