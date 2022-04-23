@@ -37,7 +37,8 @@ yarn add @gsimone/three-raycaster-helper
 ```js
 import { CatenaryCurve } from '@gsimone/catenary'
 
-...TODO
+const catenary = new CatenaryCurve(p1, p2, 10);
+const myGeometry =  new TubeGeometry(catenary, 100, 0.1, 20, false)
 ```
 
 ## Smoothdamp

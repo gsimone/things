@@ -4,10 +4,16 @@ import { OrbitControls } from "@react-three/drei";
 
 import { useControls } from "leva";
 import { CatenaryCurve } from "@gsimone/three-catenary";
-import { BufferAttribute, BufferGeometry, MathUtils, Mesh, TubeGeometry, Vector3 } from "three";
-import { useEffect, useLayoutEffect, useRef } from "react";
+import {
+  BufferAttribute,
+  BufferGeometry,
+  Mesh,
+  TubeGeometry,
+  Vector3,
+} from "three";
+import { MutableRefObject, useRef } from "react";
 
-function Catenary({ p1, p2 }) {
+function Catenary({ p1, p2 }: { p1: Vector3; p2: Vector3 }) {
   const { l } = useControls({
     l: {
       min: 0,
@@ -28,17 +34,16 @@ function Catenary({ p1, p2 }) {
     }
 
     if ($tube.current) {
-      $tube.current.geometry = new TubeGeometry(catenary, 100, .1, 20, false);
+      $tube.current.geometry = new TubeGeometry(catenary, 100, 0.1, 20, false);
     }
   });
 
   return (
     <>
-
       <mesh ref={$tube}>
         <meshNormalMaterial />
       </mesh>
-    
+
       <line>
         <bufferGeometry ref={$b} />
         <lineBasicMaterial />
@@ -49,11 +54,11 @@ function Catenary({ p1, p2 }) {
   );
 }
 
-function Point({ positionRef }) {
-  const ref = useRef();
+function Point({ positionRef }: { positionRef: MutableRefObject<Vector3> }) {
+  const ref = useRef<Mesh>();
 
   useFrame(() => {
-    ref.current.position.copy(positionRef.current);
+    ref.current?.position.copy(positionRef.current);
   });
 
   return (
@@ -72,15 +77,13 @@ function App() {
       camera={{ position: [0, 0, 100], zoom: 50 }}
     >
       <group position-y={-3}>
-
-      <Catenary p1={new Vector3(0, 3, 0)} p2={new Vector3(3, 6, 3)} />
-      <Catenary p1={new Vector3(0, 3, 0)} p2={new Vector3(-3, 0, 6)} />
-      <Catenary p1={new Vector3(0, 3, 0)} p2={new Vector3(-2, 0, -6)} />
-      <Catenary p1={new Vector3(0, 3, 0)} p2={new Vector3(3, 0, -6)} />
-      <Catenary p1={new Vector3(0, 3, 0)} p2={new Vector3(3, 4, -6)} />
-      <Catenary p1={new Vector3(0, 3, 0)} p2={new Vector3(-3, 4, -6)} />
+        <Catenary p1={new Vector3(0, 3, 0)} p2={new Vector3(3, 6, 3)} />
+        <Catenary p1={new Vector3(0, 3, 0)} p2={new Vector3(-3, 0, 6)} />
+        <Catenary p1={new Vector3(0, 3, 0)} p2={new Vector3(-2, 0, -6)} />
+        <Catenary p1={new Vector3(0, 3, 0)} p2={new Vector3(3, 0, -6)} />
+        <Catenary p1={new Vector3(0, 3, 0)} p2={new Vector3(3, 4, -6)} />
+        <Catenary p1={new Vector3(0, 3, 0)} p2={new Vector3(-3, 4, -6)} />
       </group>
-
 
       <OrbitControls />
 

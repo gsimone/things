@@ -3,15 +3,13 @@ import {
   Float32BufferAttribute,
   MathUtils,
   Matrix4,
-  Object3D,
-  Quaternion,
   Vector3,
 } from "three";
 import { getCatenaryPoint } from "./math";
 
 const AXIS_X = new Vector3(1, 0, 0);
 
-export class CatenaryCurve extends Curve {
+export class CatenaryCurve extends Curve<Vector3> {
   getCatenaryValue: (t: number) => number;
   _pa: Vector3;
   _pb: Vector3;
