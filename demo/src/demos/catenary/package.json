@@ -14,7 +14,7 @@
     "three": "0.139.2",
     "@gsimone/smoothdamp": "*",
     "@gsimone/r3f-layers": "*",
-    "@gsimone/catenary": "*",
+    "@gsimone/three-catenary": "*",
     "@gsimone/leva-plugin-bitmask": "*",
     "@gsimone/three-raycaster-helper": "*"
   },
