@@ -32,10 +32,10 @@ helper.hits = hits
 yarn add @gsimone/three-raycaster-helper
 ```
 
-![](https://github.com/gsimone/things/blob/main/_images_/catenaries.gif?raw=true)
+![](https://github.com/gsimone/things/blob/feat/catenary/_images_/catenaries.gif?raw=true)
 
 ```js
-import { Catenary } from '@gsimone/catenary'
+import { CatenaryCurve } from '@gsimone/catenary'
 
 ...TODO
 ```
