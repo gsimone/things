@@ -1,6 +1,6 @@
 {
   "name": "@gsimone/three-catenary",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "license": "MIT",
   "main": "dist/gsimone-three-catenary.cjs.js",
   "module": "dist/gsimone-three-catenary.esm.js",
