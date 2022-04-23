@@ -77,12 +77,12 @@ function App() {
       camera={{ position: [0, 0, 100], zoom: 50 }}
     >
       <group position-y={-3}>
-        <Catenary p1={new Vector3(0, 3, 0)} p2={new Vector3(3, 6, 3)} />
-        <Catenary p1={new Vector3(0, 3, 0)} p2={new Vector3(-3, 0, 6)} />
-        <Catenary p1={new Vector3(0, 3, 0)} p2={new Vector3(-2, 0, -6)} />
-        <Catenary p1={new Vector3(0, 3, 0)} p2={new Vector3(3, 0, -6)} />
-        <Catenary p1={new Vector3(0, 3, 0)} p2={new Vector3(3, 4, -6)} />
-        <Catenary p1={new Vector3(0, 3, 0)} p2={new Vector3(-3, 4, -6)} />
+        <Catenary p1={new Vector3(0, 3, 0)} p2={new Vector3(5, 6, 5)} />
+        <Catenary p1={new Vector3(0, 3, 0)} p2={new Vector3(-6, 0, 6)} />
+        <Catenary p1={new Vector3(0, 3, 0)} p2={new Vector3(-4, 0, -6)} />
+        <Catenary p1={new Vector3(0, 3, 0)} p2={new Vector3(7, 0, -6)} />
+        <Catenary p1={new Vector3(0, 3, 0)} p2={new Vector3(7, 4, -6)} />
+        <Catenary p1={new Vector3(0, 3, 0)} p2={new Vector3(-8, 4, -6)} />
       </group>
 
       <OrbitControls />
