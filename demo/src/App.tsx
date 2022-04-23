@@ -1,9 +1,9 @@
 import "./App.css";
 
-import LayersDemo from "./demos/layers";
+import CatenaryDemo from "./demos/catenary";
 
 function App() {
-  return <LayersDemo />;
+  return <CatenaryDemo />;
 }
 
 export default App;

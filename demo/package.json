@@ -12,6 +12,7 @@
     "@gsimone/r3f-layers": "*",
     "@gsimone/smoothdamp": "*",
     "@gsimone/three-raycaster-helper": "*",
+    "@gsimone/three-catenary": "*",
     "@react-three/drei": "^9.0.1",
     "@react-three/fiber": "^8.0.7",
     "@types/three": "^0.139.0",

@@ -24,6 +24,22 @@ const hits = raycaster.intersectObjects( scene.children )
 helper.hits = hits
 ```
 
+## Catenaries
+
+[![BundlePhobia](https://badgen.net/bundlephobia/minzip/@gsimone/three-raycaster-helper)](https://bundlephobia.com/package/@gsimone/three-raycaster-helper)
+
+```bash
+yarn add @gsimone/three-raycaster-helper
+```
+
+![](https://github.com/gsimone/things/blob/main/_images_/catenaries.gif?raw=true)
+
+```js
+import { Catenary } from '@gsimone/catenary'
+
+...TODO
+```
+
 ## Smoothdamp
 
 [![BundlePhobia](https://badgen.net/bundlephobia/minzip/@gsimone/smoothdamp)](https://bundlephobia.com/package/@gsimone/smoothdamp)
