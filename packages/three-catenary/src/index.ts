@@ -26,10 +26,17 @@ export class CatenaryCurve extends Curve<Vector3> {
     super();
     this.type = "CatenaryCurve";
 
-    this._pa = pa.z < pb.z ? pa.clone() : pb.clone();
-    this._pb = pa.z > pb.z ? pa.clone() : pb.clone();
+    /**
+     * The algorithm is simplified by transforming the points so that:
+     * - the fist point is at origin
+     * - the points are coplanar and on the XY plane
+     *
+     * NOTE: Points are sorted based on their z coordinate so that the first point always has a bigger z coord.
+     * The algorithm still works and doesn't require any special treatment for the first point after this change.
+     */
+    this._pa = (pa.z < pb.z ? pa : pb).clone();
+    this._pb = (pa.z > pb.z ? pa : pb).clone();
 
-    const distance = this._pa.distanceTo(this._pb);
     const dir = new Vector3().subVectors(this._pb, this._pa).normalize();
 
     this.angle = dir.angleTo(AXIS_X);
@@ -46,18 +53,30 @@ export class CatenaryCurve extends Curve<Vector3> {
      */
     const tm2 = new Matrix4().makeRotationY(this.angle);
 
+    /**
+     * Apply the transformation matrices to identity, getting the final transform matrix
+     */
     transformMatrix.multiply(tm1).multiply(tm2);
 
+    /**
+     * Transform both points
+     */
     this._pa.applyMatrix4(transformMatrix);
     this._pb.applyMatrix4(transformMatrix);
 
+    /**
+     * @todo maybe don't store the matrix, it's not really useful
+     */
     this.matrix = transformMatrix;
+    /**
+     * The invert of the transformMatrix will be used to transform points back to world space
+     */
     this.invertedMatrix = transformMatrix.invert();
 
     this.getCatenaryValue = getCatenaryPoint(
       this._pa,
       this._pb,
-      Math.max(this.l, distance)
+      Math.max(this.l, this._pa.distanceTo(this._pb))
     );
   }
 
@@ -82,6 +101,9 @@ export class CatenaryCurve extends Curve<Vector3> {
     points.setXYZ(0, ...this._pa.toArray());
     points.setXYZ(N - 1, ...this._pb.toArray());
 
+    /**
+     * Apply inverted transform matrix to the points to get them in world space
+     */
     points.applyMatrix4(this.invertedMatrix);
 
     return points.array as Float32Array;
