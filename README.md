@@ -1,5 +1,15 @@
 [![Node.js CI](https://github.com/gsimone/things/actions/workflows/node.js.yml/badge.svg)](https://github.com/gsimone/things/actions/workflows/node.js.yml)
 
+👉 You can install the packages individually or just grab the kitchensink version with everything - and leave it to treeshaking to remove unused code.
+
+```bash
+yarn add @gsimone/things
+```
+
+```js
+import { CatenaryCurve, RaycasterHelper } from '@gsimone/things'
+```
+
 # Three
 
 ## RaycasterHelper
