@@ -7,7 +7,7 @@ yarn add @gsimone/things
 ```
 
 ```js
-import { CatenaryCurve, RaycasterHelper } from '@gsimone/things'
+import { CatenaryCurve, RaycasterHelper } from "@gsimone/things";
 ```
 
 # Three
@@ -25,13 +25,13 @@ yarn add @gsimone/three-raycaster-helper
 Visualize a Raycaster (ray and near/far) and, optionally, its hits.
 
 ```js
-import { RaycasterHelper } from '@gsimone/three-raycaster-helper'
+import { RaycasterHelper } from "@gsimone/three-raycaster-helper";
 
-const raycaster = new Raycaster(origin, direction, 0.5, 10)
-const helper = new RaycasterHelper(raycaster)
+const raycaster = new Raycaster(origin, direction, 0.5, 10);
+const helper = new RaycasterHelper(raycaster);
 
-const hits = raycaster.intersectObjects( scene.children )
-helper.hits = hits
+const hits = raycaster.intersectObjects(scene.children);
+helper.hits = hits;
 ```
 
 ## Catenary Curve
@@ -47,10 +47,10 @@ yarn add @gsimone/three-catenary
 An hyperbole that passes through 2 points, used as a good enough approximation of ropes collapsing under their own weight between two points.
 
 ```js
-import { CatenaryCurve } from '@gsimone/catenary'
+import { CatenaryCurve } from "@gsimone/catenary";
 
 const catenary = new CatenaryCurve(p1, p2, 10);
-const myGeometry =  new TubeGeometry(catenary, 100, 0.1, 20, false)
+const myGeometry = new TubeGeometry(catenary, 100, 0.1, 20, false);
 ```
 
 @todo add credits & tiny explaination
@@ -66,22 +66,19 @@ yarn add @gsimone/smoothdamp
 Port of Unity's SmoothDamp.
 
 ```js
-import { SmoothDamp } from '@gsimone/smoothdamp'
-import { SmoothDampVectors } from '@gsimone/smoothdamp/three'
+import { SmoothDamp } from "@gsimone/smoothdamp";
+import { SmoothDampVectors } from "@gsimone/smoothdamp/three";
 
-const smoothDamp = new SmoothDamp(0.5, 10)
-const x = smoothDamp.get( 10, deltaTime )
+const smoothDamp = new SmoothDamp(0.5, 10);
+const x = smoothDamp.get(10, deltaTime);
 
 // using with three.js Vectors
-const mySmoothDampV = new SmoothDampVectors(0.5, 10)
-const target = new Vector3(0, 0, 0)
-const dest = new Vector3(10, 0, 0)
+const mySmoothDampV = new SmoothDampVectors(0.5, 10);
+const target = new Vector3(0, 0, 0);
+const dest = new Vector3(10, 0, 0);
 
-target.copy(
-  mySmoothDampV.get( target, dest, deltaTime )
-)
+target.copy(mySmoothDampV.get(target, dest, deltaTime));
 ```
-
 
 # React Three Fiber
 
@@ -132,7 +129,6 @@ layers.layersArray; // [0]
 **TODO**
 
 Add alternative APIs to set the initial value.
-
 
 # Vanilla
 
