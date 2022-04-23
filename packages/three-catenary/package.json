@@ -1,0 +1,13 @@
+{
+  "name": "@gsimone/three-catenary",
+  "version": "0.0.1",
+  "license": "MIT",
+  "main": "dist/gsimone-three-catenary.cjs.js",
+  "module": "dist/gsimone-three-catenary.esm.js",
+  "peerDependencies": {
+    "three": "^0.139.2"
+  },
+  "devDependencies": {
+    "three": "^0.139.2"
+  }
+}

@@ -1,5 +1,5 @@
 {
-  "name": "layers",
+  "name": "catenary",
   "version": "1.0.0",
   "description": "",
   "keywords": [],
@@ -14,6 +14,7 @@
     "three": "0.139.2",
     "@gsimone/smoothdamp": "*",
     "@gsimone/r3f-layers": "*",
+    "@gsimone/three-catenary": "*",
     "@gsimone/leva-plugin-bitmask": "*",
     "@gsimone/three-raycaster-helper": "*"
   },

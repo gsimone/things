@@ -11,6 +11,7 @@
     "@gsimone/leva-plugin-bitmask": "*",
     "@gsimone/r3f-layers": "*",
     "@gsimone/smoothdamp": "*",
+    "@gsimone/three-catenary": "*",
     "@gsimone/three-raycaster-helper": "*",
     "@react-three/drei": "^9.0.1",
     "@react-three/fiber": "^8.0.7",
