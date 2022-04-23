@@ -9,6 +9,9 @@ import { getCatenaryPoint } from "./math";
 
 const AXIS_X = new Vector3(1, 0, 0);
 
+/**
+ * @todo add a way to change the math precisions - for both rough and binary search
+ */
 export class CatenaryCurve extends Curve<Vector3> {
   getCatenaryValue: (t: number) => number;
   _pa: Vector3;
@@ -32,9 +35,15 @@ export class CatenaryCurve extends Curve<Vector3> {
     this.angle = dir.angleTo(AXIS_X);
 
     const transformMatrix = new Matrix4();
-    const tm1 = new Matrix4().makeTranslation(
-      ...new Vector3().sub(this._pa).toArray()
-    );
+
+    /**
+     * translate points so that the first one is at origin
+     */
+    const tm1 = new Matrix4().makeTranslation(...new Vector3().sub(this._pa));
+
+    /**
+     * Rotate points so that they lie on plane XY
+     */
     const tm2 = new Matrix4().makeRotationY(this.angle);
 
     transformMatrix.multiply(tm1).multiply(tm2);
@@ -42,14 +51,14 @@ export class CatenaryCurve extends Curve<Vector3> {
     this._pa.applyMatrix4(transformMatrix);
     this._pb.applyMatrix4(transformMatrix);
 
+    this.matrix = transformMatrix;
+    this.invertedMatrix = transformMatrix.invert();
+
     this.getCatenaryValue = getCatenaryPoint(
       this._pa,
       this._pb,
       Math.max(this.l, distance)
     );
-
-    this.matrix = transformMatrix;
-    this.invertedMatrix = transformMatrix.invert();
   }
 
   getPoint(t: number, optionalTarget = new Vector3()) {

@@ -24,15 +24,17 @@ const hits = raycaster.intersectObjects( scene.children )
 helper.hits = hits
 ```
 
-## Catenaries
+## Catenary Curve
 
-[![BundlePhobia](https://badgen.net/bundlephobia/minzip/@gsimone/three-raycaster-helper)](https://bundlephobia.com/package/@gsimone/three-raycaster-helper)
+[![BundlePhobia](https://badgen.net/bundlephobia/minzip/@gsimone/catenary)](https://bundlephobia.com/package/@gsimone/catenary)
 
 ```bash
-yarn add @gsimone/three-raycaster-helper
+yarn add @gsimone/catenary
 ```
 
 ![](https://github.com/gsimone/things/blob/feat/catenary/_images_/catenaries.gif?raw=true)
+
+An hyperbole that passes through 2 points, used as a good enough approximation of ropes collapsing under their own weight between two points.
 
 ```js
 import { CatenaryCurve } from '@gsimone/catenary'
@@ -40,6 +42,8 @@ import { CatenaryCurve } from '@gsimone/catenary'
 const catenary = new CatenaryCurve(p1, p2, 10);
 const myGeometry =  new TubeGeometry(catenary, 100, 0.1, 20, false)
 ```
+
+@todo add credits & tiny explaination
 
 ## Smoothdamp
 

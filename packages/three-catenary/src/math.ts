@@ -46,8 +46,10 @@ const getApproximateA = (l: number, h: number, v: number) => {
 };
 
 export const getCatenaryPoint = (pa: Vector3, pb: Vector3, l = 4) => {
-  let [x1, y1] = pa;
-  let [x2, y2] = pb;
+  // @ts-ignore
+  const [x1, y1] = pa;
+  // @ts-ignore
+  const [x2, y2] = pb;
 
   const h = x2 - x1;
   const v = y2 - y1;
