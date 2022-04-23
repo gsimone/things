@@ -32,7 +32,7 @@ helper.hits = hits
 yarn add @gsimone/catenary
 ```
 
-![](https://github.com/gsimone/things/blob/feat/catenary/_images_/catenary.gif?raw=true)
+![](https://github.com/gsimone/things/blob/main/_images_/catenary.gif?raw=true)
 
 An hyperbole that passes through 2 points, used as a good enough approximation of ropes collapsing under their own weight between two points.
 
