@@ -26,10 +26,10 @@ helper.hits = hits
 
 ## Catenary Curve
 
-[![BundlePhobia](https://badgen.net/bundlephobia/minzip/@gsimone/catenary)](https://bundlephobia.com/package/@gsimone/catenary)
+[![BundlePhobia](https://badgen.net/bundlephobia/minzip/@gsimone/three-catenary)](https://bundlephobia.com/package/@gsimone/three-catenary)
 
 ```bash
-yarn add @gsimone/catenary
+yarn add @gsimone/three-catenary
 ```
 
 ![](https://github.com/gsimone/things/blob/main/_images_/catenary.gif?raw=true)
