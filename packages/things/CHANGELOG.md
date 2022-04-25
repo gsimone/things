@@ -1,5 +1,11 @@
 # @gsimone/things
 
+## 1.1.0
+
+### Minor Changes
+
+- dfb559d: feat: adds CatenaryCurve
+
 ## 1.0.0
 
 ### Major Changes
