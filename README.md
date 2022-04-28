@@ -10,6 +10,19 @@ yarn add @gsimone/things
 import { CatenaryCurve, RaycasterHelper } from "@gsimone/things";
 ```
 
+### Packages
+
+- [Three](#three)
+  * [RaycasterHelper](#raycasterhelper)
+  * [Catenary Curve](#catenary-curve)
+  * [Smoothdamp](#smoothdamp)
+- [React Three Fiber](#react-three-fiber)
+  * [Layers](#layers)
+- [Leva](#leva)
+  * [bitmask plugin](#bitmask-plugin)
+- [Vanilla](#vanilla)
+  * [Bitmask](#bitmask)
+
 # Three
 
 ## RaycasterHelper
