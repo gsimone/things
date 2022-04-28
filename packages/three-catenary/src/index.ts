@@ -1,3 +1,6 @@
+/**
+ * Based on https://www.alanzucconi.com/2020/12/13/catenary-1/
+ */
 import {
   Curve,
   Float32BufferAttribute,
@@ -88,6 +91,9 @@ export class CatenaryCurve extends Curve<Vector3> {
     return optionalTarget.set(p, py, pz).applyMatrix4(this.invertedMatrix);
   }
 
+  /**
+   * Return a Float32Array of points instead of a Vector3[], useful for buffer-based workflows.
+   */
   getArray(N: number): Float32Array {
     const points = new Float32BufferAttribute(N * 3, 3, false);
 
