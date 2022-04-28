@@ -58,7 +58,8 @@ helper.hits = hits;
 npm i @gsimone/three-catenary
 ```
 
-![](https://github.com/gsimone/things/blob/main/_images_/catenary.gif?raw=true)
+[![](https://github.com/gsimone/things/blob/main/_images_/catenary.gif?raw=true)](https://codesandbox.io/s/github/gsimone/things/tree/main/demo/src/demos/catenary)
+<small><a href="https://codesandbox.io/s/github/gsimone/things/tree/main/demo/src/demos/catenary">👉 Codesandbox</a></small>
 
 An hyperbole that passes through 2 points, used as a good enough approximation of ropes collapsing under their own weight between two points.
 
