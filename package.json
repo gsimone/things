@@ -20,7 +20,7 @@
     "build": "preconstruct build",
     "dev": "preconstruct dev",
     "demo": "cd demo && pnpm dev",
-    "test": "pnpm jest",
+    "test": "jest",
     "prepare": "husky install"
   },
   "dependencies": {
