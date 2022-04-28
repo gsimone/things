@@ -3,7 +3,7 @@
 👉 You can install the packages individually or just grab the kitchensink version with everything - and leave it to treeshaking to remove unused code.
 
 ```bash
-yarn add @gsimone/things
+npm i @gsimone/things
 ```
 
 ```js
@@ -19,7 +19,7 @@ import { CatenaryCurve, RaycasterHelper } from "@gsimone/things";
 
 
 ```bash
-yarn add @gsimone/three-raycaster-helper
+npm i @gsimone/three-raycaster-helper
 ```
 
 ![](https://github.com/gsimone/things/blob/main/_images_/raycaster.png?raw=true)
@@ -42,7 +42,7 @@ helper.hits = hits;
 [![NPM](https://badgen.net/npm/v/@gsimone/three-catenary)](https://www.npmjs.com/@gsimone/three-catenary) [![BundlePhobia](https://badgen.net/bundlephobia/minzip/@gsimone/three-catenary)](https://bundlephobia.com/package/@gsimone/three-catenary)
 
 ```bash
-yarn add @gsimone/three-catenary
+npm i @gsimone/three-catenary
 ```
 
 ![](https://github.com/gsimone/things/blob/main/_images_/catenary.gif?raw=true)
@@ -63,7 +63,7 @@ const myGeometry = new TubeGeometry(catenary, 100, 0.1, 20, false);
 [![NPM](https://badgen.net/npm/v/@gsimone/smoothdamp)](https://www.npmjs.com/@gsimone/smoothdamp) [![BundlePhobia](https://badgen.net/bundlephobia/minzip/@gsimone/smoothdamp)](https://bundlephobia.com/package/@gsimone/smoothdamp)
 
 ```bash
-yarn add @gsimone/smoothdamp
+npm i @gsimone/smoothdamp
 ```
 
 Port of Unity's SmoothDamp.
@@ -91,7 +91,7 @@ target.copy(mySmoothDampV.get(target, dest, deltaTime));
 [![NPM](https://badgen.net/npm/v/@gsimone/r3f-layers)](https://www.npmjs.com/@gsimone/r3f-layers) [![BundlePhobia](https://badgen.net/bundlephobia/minzip/@gsimone/r3f-layers)](https://bundlephobia.com/package/@gsimone/r3f-layers)
 
 ```bash
-yarn add @gsimone/r3f-layers
+npm i @gsimone/r3f-layers
 ```
 
 Simple helper for three's Layers, lets you set an object's layers in a declarative manner:
@@ -109,7 +109,7 @@ Simple helper for three's Layers, lets you set an object's layers in a declarati
 [![NPM](https://badgen.net/npm/v/@gsimone/leva-plugin-bitmask)](https://www.npmjs.com/@gsimone/leva-plugin-bitmask) [![BundlePhobia](https://badgen.net/bundlephobia/minzip/@gsimone/leva-plugin-bitmask)](https://bundlephobia.com/package/@gsimone/leva-plugin-bitmask)
 
 ```bash
-yarn add @gsimone/leva-plugin-bitmask
+npm i @gsimone/leva-plugin-bitmask
 ```
 
 ![](https://github.com/gsimone/things/blob/main/_images_/leva-bitmask.png?raw=true)
@@ -142,7 +142,7 @@ Add alternative APIs to set the initial value.
 [![BundlePhobia](https://badgen.net/bundlephobia/minzip/@gsimone/bitmask)](https://bundlephobia.com/package/@gsimone/bitmask)
 
 ```bash
-yarn add @gsimone/bitmask
+npm i @gsimone/bitmask
 ```
 
 Tiny library for bitmasks.
