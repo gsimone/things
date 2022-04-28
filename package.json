@@ -14,13 +14,13 @@
     ]
   },
   "scripts": {
-    "ci": "preconstruct validate && manypkg check && yarn build",
-    "release": "yarn ci && changeset publish --access public",
+    "ci": "preconstruct validate && manypkg check && pnpm build",
+    "release": "pnpm ci && changeset publish --access public",
     "postinstall": "preconstruct dev",
     "build": "preconstruct build",
     "dev": "preconstruct dev",
-    "demo": "cd demo && yarn dev",
-    "test": "yarn jest",
+    "demo": "cd demo && pnpm dev",
+    "test": "pnpm jest",
     "prepare": "husky install"
   },
   "dependencies": {
