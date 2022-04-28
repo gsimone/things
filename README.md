@@ -1,4 +1,4 @@
-[![Node.js CI](https://github.com/gsimone/things/actions/workflows/node.js.yml/badge.svg)](https://github.com/gsimone/things/actions/workflows/node.js.yml)
+[![NPM](https://badgen.net/npm/v/@gsimone/things)](https://www.npmjs.com/@gsimone/things) [![Node.js CI](https://github.com/gsimone/things/actions/workflows/node.js.yml/badge.svg)](https://github.com/gsimone/things/actions/workflows/node.js.yml)
 
 👉 You can install the packages individually or just grab the kitchensink version with everything - and leave it to treeshaking to remove unused code.
 
@@ -14,7 +14,9 @@ import { CatenaryCurve, RaycasterHelper } from "@gsimone/things";
 
 ## RaycasterHelper
 
-[![BundlePhobia](https://badgen.net/bundlephobia/minzip/@gsimone/three-raycaster-helper)](https://bundlephobia.com/package/@gsimone/three-raycaster-helper)
+[![NPM](https://badgen.net/npm/v/@gsimone/three-raycaster-helper)](https://www.npmjs.com/@gsimone/three-raycaster-helper) [![BundlePhobia](https://badgen.net/bundlephobia/minzip/@gsimone/three-raycaster-helper)](https://bundlephobia.com/package/@gsimone/three-raycaster-helper)
+
+
 
 ```bash
 yarn add @gsimone/three-raycaster-helper
@@ -36,7 +38,8 @@ helper.hits = hits;
 
 ## Catenary Curve
 
-[![BundlePhobia](https://badgen.net/bundlephobia/minzip/@gsimone/three-catenary)](https://bundlephobia.com/package/@gsimone/three-catenary)
+
+[![NPM](https://badgen.net/npm/v/@gsimone/three-catenary)](https://www.npmjs.com/@gsimone/three-catenary) [![BundlePhobia](https://badgen.net/bundlephobia/minzip/@gsimone/three-catenary)](https://bundlephobia.com/package/@gsimone/three-catenary)
 
 ```bash
 yarn add @gsimone/three-catenary
@@ -47,7 +50,7 @@ yarn add @gsimone/three-catenary
 An hyperbole that passes through 2 points, used as a good enough approximation of ropes collapsing under their own weight between two points.
 
 ```js
-import { CatenaryCurve } from "@gsimone/catenary";
+import { CatenaryCurve } from "@gsimone/three-catenary";
 
 const catenary = new CatenaryCurve(p1, p2, 10);
 const myGeometry = new TubeGeometry(catenary, 100, 0.1, 20, false);
@@ -57,7 +60,7 @@ const myGeometry = new TubeGeometry(catenary, 100, 0.1, 20, false);
 
 ## Smoothdamp
 
-[![BundlePhobia](https://badgen.net/bundlephobia/minzip/@gsimone/smoothdamp)](https://bundlephobia.com/package/@gsimone/smoothdamp)
+[![NPM](https://badgen.net/npm/v/@gsimone/smoothdamp)](https://www.npmjs.com/@gsimone/smoothdamp) [![BundlePhobia](https://badgen.net/bundlephobia/minzip/@gsimone/smoothdamp)](https://bundlephobia.com/package/@gsimone/smoothdamp)
 
 ```bash
 yarn add @gsimone/smoothdamp
@@ -84,7 +87,8 @@ target.copy(mySmoothDampV.get(target, dest, deltaTime));
 
 ## Layers
 
-[![BundlePhobia](https://badgen.net/bundlephobia/minzip/@gsimone/r3f-layers)](https://bundlephobia.com/package/@gsimone/r3f-layers)
+
+[![NPM](https://badgen.net/npm/v/@gsimone/r3f-layers)](https://www.npmjs.com/@gsimone/r3f-layers) [![BundlePhobia](https://badgen.net/bundlephobia/minzip/@gsimone/r3f-layers)](https://bundlephobia.com/package/@gsimone/r3f-layers)
 
 ```bash
 yarn add @gsimone/r3f-layers
@@ -102,7 +106,7 @@ Simple helper for three's Layers, lets you set an object's layers in a declarati
 
 ## bitmask plugin
 
-[![BundlePhobia](https://badgen.net/bundlephobia/minzip/@gsimone/leva-plugin-bitmask)](https://bundlephobia.com/package/@gsimone/leva-plugin-bitmask)
+[![NPM](https://badgen.net/npm/v/@gsimone/leva-plugin-bitmask)](https://www.npmjs.com/@gsimone/leva-plugin-bitmask) [![BundlePhobia](https://badgen.net/bundlephobia/minzip/@gsimone/leva-plugin-bitmask)](https://bundlephobia.com/package/@gsimone/leva-plugin-bitmask)
 
 ```bash
 yarn add @gsimone/leva-plugin-bitmask
@@ -134,6 +138,7 @@ Add alternative APIs to set the initial value.
 
 ## Bitmask
 
+[![NPM](https://badgen.net/npm/v/@gsimone/bitmask)](https://www.npmjs.com/@gsimone/bitmask) 
 [![BundlePhobia](https://badgen.net/bundlephobia/minzip/@gsimone/bitmask)](https://bundlephobia.com/package/@gsimone/bitmask)
 
 ```bash

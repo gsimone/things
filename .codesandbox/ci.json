@@ -1,7 +1,10 @@
 {
-  "packages": [
-    "packages/*"
+  "packages": ["packages/*"],
+  "sandboxes": [
+    "jrl1f",
+    "/demo/src/demos/layers",
+    "/demo/src/demos/smoothdamp",
+    "/demo/src/demos/catenary"
   ],
-  "sandboxes": ["jrl1f", "/demo/src/demos/layers", "/demo/src/demos/smoothdamp", "/demo/src/demos/catenary"],
   "node": "14"
 }

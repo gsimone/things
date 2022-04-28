@@ -13,8 +13,11 @@ const El: FC<{ layers: number[] | number }> = ({ layers, ...props }) => {
   const $mesh = useRef<Mesh>(null!);
 
   useFrame(({ clock }) => {
-    $mesh.current.position.y = Math.sin(clock.getElapsedTime() * .5 + $mesh.current.position.x);
-    $mesh.current.rotation.z = Math.sin(clock.getElapsedTime() * .5) * Math.PI * 1;
+    $mesh.current.position.y = Math.sin(
+      clock.getElapsedTime() * 0.5 + $mesh.current.position.x
+    );
+    $mesh.current.rotation.z =
+      Math.sin(clock.getElapsedTime() * 0.5) * Math.PI * 1;
   });
 
   return (
@@ -35,23 +38,22 @@ const Ray: FC<{ layers: number[] }> = ({ layers }) => {
   const helper = useHelper({ current: r }, RaycasterHelper);
 
   useFrame(({ scene, clock }) => {
-    r.ray.origin.y = Math.sin(clock.getElapsedTime()) * 2
+    r.ray.origin.y = Math.sin(clock.getElapsedTime()) * 2;
     helper.current.hits = r.intersectObjects(scene.children);
   });
 
   useControls({
     nearfar: {
-      value:[ 1, 8],
+      value: [1, 8],
       onChange: ([n, F]) => {
-        console.log(n,F)
-        r.near = n
-        r.far = F
+        console.log(n, F);
+        r.near = n;
+        r.far = F;
       },
       min: 0.01,
-      max: 20
+      max: 20,
     },
-    
-  })
+  });
 
   return (
     <primitive object={r} far={8} near={0.01}>
