@@ -15,7 +15,7 @@ const makeTexture = (w: number, h: number) => {
 type UseDepthBuffer = (
   { size }: { size: number | number[] },
   priority: number
-) => MutableRefObject<WebGLRenderTarget>;
+) => [MutableRefObject<WebGLRenderTarget>, () => void];
 
 const useDepthFBORef = (w: number, h: number) => {
   const config = useMemo(
@@ -37,15 +37,12 @@ export const useDepthFBO: UseDepthBuffer = ({ size }, priority = 1) => {
   const $writeFbo = useDepthFBORef(w, h);
   const $readFbo = useDepthFBORef(w, h);
 
-  useFrame((state) => {
-    state.gl.clearDepth();
-    state.gl.setRenderTarget($writeFbo.current);
-    state.gl.render(state.scene, state.camera);
-
-    const t = $writeFbo.current;
-    $writeFbo.current = $readFbo.current;
-    $readFbo.current = t;
-  }, priority);
-
-  return $readFbo;
+  return [
+    $readFbo,
+    () => {
+      const t = $writeFbo.current;
+      $writeFbo.current = $readFbo.current;
+      $readFbo.current = t;
+    },
+  ];
 };
