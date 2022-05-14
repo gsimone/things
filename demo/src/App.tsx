@@ -1,9 +1,9 @@
 import "./App.css";
 
-import CatenaryDemo from "./demos/catenary";
+import DepthDemo from "./demos/depth/Scene";
 
 function App() {
-  return <CatenaryDemo />;
+  return <DepthDemo />;
 }
 
 export default App;

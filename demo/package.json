@@ -10,21 +10,23 @@
   "dependencies": {
     "@gsimone/leva-plugin-bitmask": "*",
     "@gsimone/r3f-layers": "*",
+    "@gsimone/r3f-use-depth-fbo": "*",
     "@gsimone/smoothdamp": "*",
     "@gsimone/three-catenary": "*",
     "@gsimone/three-raycaster-helper": "*",
-    "@react-three/drei": "^9.0.1",
-    "@react-three/fiber": "^8.0.7",
-    "@types/three": "^0.139.0",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
-    "three": "^0.139.2"
+    "@react-three/drei": "^9.8.0",
+    "@react-three/fiber": "^8.0.14",
+    "@types/three": "^0.140.0",
+    "lamina": "^1.1.19",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
+    "three": "^0.140.2"
   },
   "devDependencies": {
-    "@types/react": "^17.0.43",
-    "@types/react-dom": "^17.0.14",
-    "@vitejs/plugin-react": "^1.3.0",
-    "typescript": "^4.6.3",
-    "vite": "^2.9.1"
+    "@types/react": "^18.0.9",
+    "@types/react-dom": "^18.0.4",
+    "@vitejs/plugin-react": "^1.3.2",
+    "typescript": "^4.6.4",
+    "vite": "^2.9.9"
   }
 }
