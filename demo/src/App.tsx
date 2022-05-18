@@ -1,9 +1,9 @@
 import "./App.css";
 
-import CatenaryDemo from "./demos/catenary";
+import PPDemo from "./demos/postprocessing";
 
 function App() {
-  return <CatenaryDemo />;
+  return <PPDemo />;
 }
 
 export default App;
