@@ -13,9 +13,11 @@
     "@gsimone/smoothdamp": "*",
     "@gsimone/three-catenary": "*",
     "@gsimone/three-raycaster-helper": "*",
+    "@gsimone/postprocessing": "*",
     "@react-three/drei": "^9.0.1",
     "@react-three/fiber": "^8.0.7",
     "@types/three": "^0.139.0",
+    "postprocessing": "^6.26.4",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "three": "^0.139.2"
