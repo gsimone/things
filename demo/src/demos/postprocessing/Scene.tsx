@@ -3,9 +3,8 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import {
   Environment,
   OrbitControls,
-  Sky,
-  Sphere,
   useEnvironment,
+  useTexture,
 } from "@react-three/drei";
 
 import {
@@ -17,14 +16,13 @@ import {
   BlendFunction,
   NoiseEffect,
   DepthPass,
-  KernelSize,
   TextureEffect,
 } from "postprocessing";
 import { Suspense, useLayoutEffect, useRef } from "react";
 
-import { CustomEffect, MipFog, NiceHaloThing } from "@gsimone/postprocessing";
-import { Color, LinearMipmapLinearFilter, Mapping, NearestMipmapNearestFilter, RepeatWrapping } from "three";
-import * as THREE from 'three'
+import { CustomEffect, MipFog, NiceHaloThing, SamplerFog } from "@gsimone/postprocessing";
+import { Color, LinearMipmapLinearFilter, RepeatWrapping } from "three";
+import * as THREE from "three";
 import { useControls } from "leva";
 
 function Things() {
@@ -32,7 +30,7 @@ function Things() {
     <>
       {Array.from({ length: 1_000 }).map((_, i) => {
         const x = 1000;
-        const h = Math.random() * 30;
+        const h = Math.random() * 40 + 300;
 
         return (
           <>
@@ -45,7 +43,7 @@ function Things() {
               ]}
             >
               <mesh position-y={0}>
-                <boxGeometry args={[3, h, 3]} />
+                <cylinderGeometry args={[3, 3, h, 32]} />
                 <meshPhysicalMaterial color="#111" />
               </mesh>
             </group>
@@ -67,23 +65,31 @@ function Post() {
   const $myEffect = useRef<CustomEffect>(null!);
 
   const fogEnv = useEnvironment({
-    files: "forest-small.hdr"
+    files: "forest-small.hdr",
   });
 
-  fogEnv.generateMipmaps = true
-  fogEnv.needsUpdate = true
-  fogEnv.magFilter = THREE.LinearMipmapLinearFilter
-  fogEnv.minFilter = THREE.LinearMipmapLinearFilter
-  fogEnv.wrapS = fogEnv.wrapT = RepeatWrapping
+  const fogRamp = useTexture('./14956.png')
+
+
 
   useLayoutEffect(() => {
+    fogRamp.magFilter = LinearMipmapLinearFilter;
+    fogRamp.minFilter = LinearMipmapLinearFilter;
+    fogRamp.anisotropy  = 10
+  
+    fogEnv.generateMipmaps = true;
+    fogEnv.needsUpdate = true;
+    fogEnv.magFilter = THREE.LinearMipmapLinearFilter;
+    fogEnv.minFilter = THREE.LinearMipmapLinearFilter;
+    fogEnv.wrapS = fogEnv.wrapT = RepeatWrapping;
+    
     const composer = new EffectComposer(gl, {
       multisampling: 0,
       depthBuffer: true,
     });
     const depthpass = new DepthPass(scene, camera);
     const normalpass = new NormalPass(scene, camera);
-    const depthdownpass = new DepthDownsamplingPass({ resolutionScale: 0.1 });
+    const depthdownpass = new DepthDownsamplingPass({ resolutionScale: 1. });
 
     const noiseEffect = new NoiseEffect({
       blendFunction: BlendFunction.SCREEN,
@@ -93,20 +99,25 @@ function Post() {
     const myEffect = new CustomEffect(camera);
     $myEffect.current = myEffect;
 
-    const myMipThing = new MipFog(camera, {
+    const mipFog = new MipFog(camera, {
       fogEnv,
     });
-    
-    const niceHaloThing = new NiceHaloThing()
+
+    const niceHaloThing = new NiceHaloThing();
 
     const tt = new TextureEffect({
       texture: fogEnv,
     });
 
+    const samplerFog = new SamplerFog(camera, {
+      fogRamp: fogRamp
+    })
+
     composer.addPass(new RenderPass(scene, camera));
-    composer.addPass(normalpass);
-    composer.addPass(depthdownpass);
-    composer.addPass(new EffectPass(camera, niceHaloThing));
+    // composer.addPass(normalpass);
+    // composer.addPass(depthdownpass);
+    composer.addPass(new DepthPass(scene, camera));
+    composer.addPass(new EffectPass(camera, mipFog));
 
     $composer.current = composer;
 
@@ -119,45 +130,45 @@ function Post() {
     $composer.current?.render();
   }, 1);
 
-  useControls({
-    fogHeight: {
-      value: 11,
-      min: 0,
-      max: 100,
-      onChange: (v) => {
-        $myEffect.current.uniforms.get("fogHeight")!.value = v;
-      },
-    },
-    fogOffset: {
-      value: 0,
-      min: -1_000,
-      max: 1_000,
-      onChange: (v) => {
-        $myEffect.current.uniforms.get("fogOffset")!.value = v;
-      },
-    },
-    fogColor: {
-      value: "#e8bb82",
-      onChange: (v) => {
-        $myEffect.current.uniforms.get("fogColor")!.value = new Color(v);
-      },
-    },
-    fogColor2: {
-      value: "#d50048",
-      onChange: (v) => {
-        $myEffect.current.uniforms.get("fogColor2")!.value = new Color(v);
-      },
-    },
-    fogAlpha: {
-      value: 1,
-      min: 0,
-      max: 1,
-      step: 0.01,
-      onChange: (v) => {
-        $myEffect.current.uniforms.get("fogAlpha")!.value = v;
-      },
-    },
-  });
+  // useControls({
+  //   fogHeight: {
+  //     value: 11,
+  //     min: 0,
+  //     max: 100,
+  //     onChange: (v) => {
+  //       $myEffect.current.uniforms.get("fogHeight")!.value = v;
+  //     },
+  //   },
+  //   fogOffset: {
+  //     value: 0,
+  //     min: -1_000,
+  //     max: 1_000,
+  //     onChange: (v) => {
+  //       $myEffect.current.uniforms.get("fogOffset")!.value = v;
+  //     },
+  //   },
+  //   fogColor: {
+  //     value: "#e8bb82",
+  //     onChange: (v) => {
+  //       $myEffect.current.uniforms.get("fogColor")!.value = new Color(v);
+  //     },
+  //   },
+  //   fogColor2: {
+  //     value: "#d50048",
+  //     onChange: (v) => {
+  //       $myEffect.current.uniforms.get("fogColor2")!.value = new Color(v);
+  //     },
+  //   },
+  //   fogAlpha: {
+  //     value: 1,
+  //     min: 0,
+  //     max: 1,
+  //     step: 0.01,
+  //     onChange: (v) => {
+  //       $myEffect.current.uniforms.get("fogAlpha")!.value = v;
+  //     },
+  //   },
+  // });
 
   return null;
 }
@@ -183,18 +194,17 @@ function App() {
     >
       <Suspense fallback={null}>
         <Post />
-        {/* <Things /> */}
+        <Things />
 
-        <mesh>
+        {/* <mesh>
           <planeGeometry args={[10, 20]} />
           <meshBasicMaterial color="white" />
-        </mesh>
+        </mesh> */}
 
-        <Environment preset="forest" />
       </Suspense>
 
       <ambientLight intensity={0.5} />
-      <directionalLight position={[1, 0, 0]} intensity={4} />
+      <directionalLight position={[1, 0, 0]} intensity={1} />
 
       <OrbitControls />
 

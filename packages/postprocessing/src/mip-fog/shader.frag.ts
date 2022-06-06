@@ -28,7 +28,7 @@ void mainImage(const in vec4 inputColor, const in vec2 uv, const in float depth,
 	vec3 direction = normalize(transformDirection(viewPos, inverseViewMatrix));
 	vec2 euv = equirectUv(direction);
 
-	float _d_ = (1. - viewPos.z)/300.;
+	float _d_ = (1. - viewPos.z)/500.;
 	float debug = saturate( (depth - cameraNear ) / (cameraFar - cameraNear) );
 	
 	float miplevel = (1. - _d_) * 11.;
@@ -39,6 +39,6 @@ void mainImage(const in vec4 inputColor, const in vec2 uv, const in float depth,
 	
 	outputColor.rgb = mix(fogColor, inputColor.rgb, vec3(1. -fogFactor));
 	//outputColor.rgb = vec3(fogFactor);
-	outputColor.a = inputColor.a;
+	outputColor.a = 1. - fogFactor;
 }
 `;
