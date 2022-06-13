@@ -1,9 +1,9 @@
 import "./App.css";
 
-import CatenaryDemo from "./demos/catenary";
+import BVCDemo from "./demos/bvc";
 
 function App() {
-  return <CatenaryDemo />;
+  return <BVCDemo />;
 }
 
 export default App;

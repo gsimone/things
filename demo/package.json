@@ -8,6 +8,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@gsimone/bvc": "*",
     "@gsimone/leva-plugin-bitmask": "*",
     "@gsimone/r3f-layers": "*",
     "@gsimone/smoothdamp": "*",
@@ -16,8 +17,11 @@
     "@react-three/drei": "^9.0.1",
     "@react-three/fiber": "^8.0.7",
     "@types/three": "^0.139.0",
+    "maath": "^0.0.2",
+    "r3f-perf": "^6.2.6",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
+    "react-dropzone": "^14.2.1",
     "three": "^0.139.2"
   },
   "devDependencies": {

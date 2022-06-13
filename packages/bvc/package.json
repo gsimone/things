@@ -1,0 +1,19 @@
+{
+  "name": "@gsimone/bvc",
+  "version": "0.0.1",
+  "main": "dist/gsimone-bvc.cjs.js",
+  "module": "dist/gsimone-bvc.esm.js",
+  "license": "MIT",
+  "peerDependencies": {
+    "three": "^0.139.2"
+  },
+  "preconstruct": {
+    "entrypoints": [
+      "index.ts"
+    ]
+  },
+  "dependencies": {
+    "earcut": "^2.2.3",
+    "maath": "^0.0.2"
+  }
+}
