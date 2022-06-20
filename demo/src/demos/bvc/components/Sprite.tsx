@@ -1,38 +1,17 @@
-import { Canvas } from "@react-three/fiber";
-import { useDropzone } from "react-dropzone";
-
-import {
-  Bounds,
-  Edges,
-  OrbitControls,
-  Plane,
-  shaderMaterial,
-  Text,
-  useTexture,
-} from "@react-three/drei";
-import {
-  Suspense,
-  useCallback,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { Plane, Text } from "@react-three/drei";
 import { useControls } from "leva";
-import { BufferGeometry, InstancedMesh, NormalBlending, Object3D } from "three";
-import { extend } from "@react-three/fiber";
+import { useLayoutEffect, useRef, useState } from "react";
+import { BufferGeometry } from "three";
 
-import * as random from "maath/random";
-
-import {
-  ClippedSpriteGeometry,
-  ClippedFlipbookGeometry,
-  ClippedFlipbookDataTexture,
-} from "@gsimone/bvc";
-
-function MySprite({ map, showPolygon, index, vertices, ...props }) {
+export function MySprite({ map, ...props }) {
   const ref = useRef<BufferGeometry>(null!);
   const [reduction, setReduction] = useState(0);
+
+  const { index, vertices, showPolygon } = useControls({
+    index: { min: 0, value: 0, max: props.horizontalSlices * props.verticalSlices, step: 1 },
+    vertices: { min: 3, max: 12, value: 6, step: 1 },
+    showPolygon: false,
+  }, [props.horizontalSlices, props.verticalSlices])
 
   const horizontalIndex = index % props.horizontalSlices;
   const verticalIndex = Math.floor(index / props.horizontalSlices);
@@ -45,8 +24,8 @@ function MySprite({ map, showPolygon, index, vertices, ...props }) {
     vertices,
     setReduction,
     props.alphaThreshold,
-    props.horizontalIndex,
-    props.verticalIndex,
+    horizontalIndex,
+    verticalIndex,
   ]);
 
   return (
@@ -64,7 +43,7 @@ function MySprite({ map, showPolygon, index, vertices, ...props }) {
             { ...props, horizontalIndex, verticalIndex },
           ]}
         />
-        <meshBasicMaterial map={map} transparent />
+        <meshBasicMaterial map={map} transparent alphaTest={props.alphaThreshold} />
       </mesh>
 
       <mesh scale={6} visible={showPolygon}>

@@ -47,9 +47,9 @@ export function MyInstances(props: Props) {
   const $instancedMesh = useRef<InstancedMesh>();
 
   const count = 300;
-  const points: Float32Array = random.inSphere(new Float32Array(count * 3), {
-    radius: .5,
-  });
+  const points = random.inSphere(new Float32Array(count * 3), {
+    radius: 0.5,
+  }) as Float32Array;
 
   useLayoutEffect(() => {
     const dummy = new Object3D();
@@ -57,9 +57,6 @@ export function MyInstances(props: Props) {
       for (let i = 0; i < points.length; i += 3) {
         const [x, y, z] = points.slice(i * 3, i * 3 + 3);
         dummy.position.set(x, y, z);
-
-        // dummy.scale.setScalar(1 + (Math.random() - .5) * .5)
-
         dummy.updateMatrix();
         $instancedMesh.current.setMatrixAt(i, dummy.matrix);
       }

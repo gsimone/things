@@ -78,4 +78,59 @@ const MyMaterial = shaderMaterial(
 `
 );
 
-extend({ MyMaterial });
+const MyUVsMaterial = shaderMaterial(
+  {},
+  /* glsl */ `
+  varying vec2 vUv; 
+
+  void main () {
+    vUv = uv;
+    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+  }
+`,
+  /* glsl */ `
+  varying vec2 vUv;
+
+  void main () {
+    gl_FragColor = vec4(vUv, 0.0, 1.0);
+  }
+`
+);
+
+const MyBillboardMaterial = shaderMaterial(
+  {
+    map: null,
+  },
+  /* glsl */ `
+  varying vec2 vUv; 
+
+  vec3 billboard(vec2 v, mat4 view){
+    vec3 up = vec3(view[0][1], view[1][1], view[2][1]);
+    vec3 right = vec3(view[0][0], view[1][0], view[2][0]);
+    vec3 p = right * v.x + up * v.y;
+    return p;
+  }
+
+  void main () {
+    vUv = uv;
+
+    vec3 transformed = position;
+
+    transformed = billboard(transformed.xy, viewMatrix);
+
+    gl_Position = projectionMatrix * modelViewMatrix * instanceMatrix * vec4(transformed, 1.0);
+  }
+`,
+  /* glsl */ `
+  varying vec2 vUv;
+  uniform sampler2D map;
+
+  void main () {
+    vec4 col = texture2D(map, vUv);
+    gl_FragColor = vec4(col);
+  }
+`
+);
+
+
+extend({ MyMaterial, MyBillboardMaterial, MyUVsMaterial });

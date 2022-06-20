@@ -2,8 +2,7 @@
 import earcut from "earcut";
 import * as buffer from "maath/buffer";
 
-import { convexhull } from "./deps/convex-hull";
-import { simplifyConvexHull, calcPolygonArea } from "./geometry";
+import { convexhull, simplifyConvexHull, calcPolygonArea } from "./geometry";
 import { Point } from ".";
 import * as debug from "./debug";
 import { addAxis, createBufferFromListOfPoints, getNeighbours } from "./utils";
@@ -16,6 +15,23 @@ const DEFAULT_SETTINGS = {
   horizontalIndex: 0,
   verticalIndex: 0,
 };
+
+function createCanvas(id = "debug-canvas", width: number, height: number) {
+  const canvas =
+    (document.querySelector(`#${id}`) as HTMLCanvasElement) ||
+    document.createElement("canvas");
+
+  canvas.id = id;
+
+  // document.body.appendChild(canvas);
+
+  canvas.width = width;
+  canvas.height = height;
+
+  canvas.id = id;
+
+  return canvas;
+}
 
 export class PolygonGenerator {
   points: Array<Point> = [];
@@ -30,6 +46,7 @@ export class PolygonGenerator {
 
   index: Uint32Array;
   positions: Float32Array;
+  uv: Float32Array;
 
   defaultSettings = DEFAULT_SETTINGS;
 
@@ -47,7 +64,7 @@ export class PolygonGenerator {
       Number.EPSILON
     );
 
-    const canvas = this.createCanvas("bvc-image", img.width, img.height);
+    const canvas = createCanvas("bvc-image", img.width, img.height);
     this.points = this.getPoints(img, canvas);
 
     let convexHull = this.calculateConvexHull(this.points);
@@ -79,25 +96,22 @@ export class PolygonGenerator {
     // transform the buffer to 3d with 0 z [1, 2, ...] > [1, 2, 0, ...]
     this.positions = addAxis(positions, 2, () => 0) as Float32Array;
     this.index = Uint32Array.from(index);
+    this.uv = buffer.map(positions.slice(0), 2, (v) => {
+      let x = v[0] + 0.5;
+      x =
+        x / this.settings.horizontalSlices +
+        (1 / this.settings.horizontalSlices) * this.settings.horizontalIndex;
+
+      let y = v[1] + 0.5;
+      y =
+        y / this.settings.verticalSlices +
+        1 -
+        (1 / this.settings.verticalSlices) * (this.settings.verticalIndex + 1);
+
+      return [x, y];
+    }) as Float32Array;
 
     // debug.drawGrid(canvas, size[0], size[1]);
-  }
-
-  createCanvas(id = "debug-canvas", width: number, height: number) {
-    const canvas =
-      (document.querySelector(`#${id}`) as HTMLCanvasElement) ||
-      document.createElement("canvas");
-
-    canvas.id = id;
-
-    // document.body.appendChild(canvas);
-
-    canvas.width = width;
-    canvas.height = height;
-
-    canvas.id = id;
-
-    return canvas;
   }
 
   /**
@@ -137,6 +151,9 @@ export class PolygonGenerator {
 
     const points = [];
 
+    /**
+     * @TODO find a better API for this. The user should be able to either choose a test or pass one.
+     */
     const checkPointAlpha = (...rgba: number[]) => {
       return rgba[3] / 255 > this.settings.alphaThreshold;
     };
