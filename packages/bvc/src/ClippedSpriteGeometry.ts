@@ -1,35 +1,19 @@
-import { BufferAttribute, BufferGeometry } from "three";
+import {
+  BufferAttribute,
+  BufferGeometry,
+  DataTexture,
+  FloatType,
+  RGBAFormat,
+  RGBFormat,
+} from "three";
 import { PolygonGenerator } from "./PolygonGenerator";
+import { addAxis, fillBuffer } from "./utils";
 
-const fillBuffer = (count: number, point: number[]): Float32Array => {
-  const buffer = new Float32Array(count);
-
-  for (let i = 0; i < count; i++) {
-    buffer[i * 3] = point[0];
-    buffer[i * 3 + 1] = point[1];
-    buffer[i * 3 + 2] = point[2];
-  }
-
-  return buffer;
-};
-
-export default class ClippedSpriteGeometry extends BufferGeometry {
-  constructor(
-    image: HTMLImageElement,
-    vertices: number,
-    settings: {
-      alphaThreshold?: number;
-    }
-  ) {
+export class ClippedSpriteGeometry extends BufferGeometry {
+  constructor(image: HTMLImageElement, vertices: number, settings: any) {
     super();
 
-    const polygon = new PolygonGenerator(
-      image,
-      {
-        alphaThreshold: settings?.alphaThreshold || Number.EPSILON,
-      },
-      vertices
-    );
+    const polygon = new PolygonGenerator(image, settings, vertices);
 
     const count = polygon.positions.length;
 
@@ -45,4 +29,84 @@ export default class ClippedSpriteGeometry extends BufferGeometry {
     this.setAttribute("normal", normalBA);
     this.setAttribute("uv", uvBA);
   }
+}
+
+export class ClippedFlipbookGeometry extends BufferGeometry {
+  constructor(vertices: number) {
+    super();
+    const geometry = new BufferGeometry();
+    geometry.setAttribute(
+      "position",
+      new BufferAttribute(new Float32Array(vertices * 3), 3)
+    );
+    geometry.setAttribute(
+      "normal",
+      new BufferAttribute(fillBuffer(vertices * 3, [0, 0, 1]), 3)
+    );
+
+    Object.assign(this, geometry);
+  }
+}
+
+export function createClippedFlipbook(
+  image: HTMLImageElement,
+  vertices: number,
+  horizontalSlices: number,
+  verticalSlices: number,
+  alphaThreshold: number
+): [BufferGeometry, DataTexture] {
+  const t0 = performance.now();
+
+  const total = horizontalSlices * verticalSlices;
+  const positions = new Float32Array(total * vertices * 4);
+
+  let candidateGeometry = null;
+
+  for (let i = 0; i < total; i++) {
+    const geometry = new ClippedSpriteGeometry(image, vertices, {
+      horizontalSlices,
+      verticalSlices,
+      horizontalIndex: i % horizontalSlices,
+      verticalIndex: Math.floor(i / horizontalSlices),
+      alphaThreshold,
+    });
+
+    const pos = geometry.attributes.position.array;
+    /**
+     *  Save one of the generated geometries to use it as the flipbook geometry. Any geometry with the correct number of vertices is fine.
+     */
+    if (pos.length === vertices * 3 && !candidateGeometry) {
+      candidateGeometry = geometry;
+    }
+
+    /**
+     * The data texture wants to have four elements per vertex.
+     */
+    const posWithFourElements = addAxis(pos as Float32Array, 3, () => 1);
+
+    positions.set(posWithFourElements, posWithFourElements.length * i);
+  }
+
+  /**
+   * We can safely 0-initialize the all elements of the positions array since positions are going to be set in the vertex shader anyway.
+   */
+  // (candidateGeometry!.getAttribute("position").array as Float32Array).map(() => 0);
+  /**
+   * UVs are not necessary for the flipbook as they are calculated per-position and per-frame with simple operations.
+   */
+  candidateGeometry!.deleteAttribute("uv");
+
+  const texture = new DataTexture(
+    positions,
+    vertices,
+    total,
+    RGBAFormat,
+    FloatType
+  );
+  texture.needsUpdate = true;
+
+  const t1 = performance.now();
+  console.log(t1 - t0);
+
+  return [candidateGeometry, texture];
 }

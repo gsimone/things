@@ -1,29 +1,17 @@
 import { Canvas } from "@react-three/fiber";
 import { useDropzone } from "react-dropzone";
 
-import {
-  Bounds,
-  Edges,
-  OrbitControls,
-  Plane,
-  shaderMaterial,
-  Text,
-  useTexture,
-} from "@react-three/drei";
-import {
-  Suspense,
-  useCallback,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from "react";
+import { OrbitControls, shaderMaterial, useTexture } from "@react-three/drei";
+import { Suspense, useCallback, useState } from "react";
 import { useControls } from "leva";
-import { BufferGeometry, InstancedMesh, NormalBlending, Object3D } from "three";
 import { extend } from "@react-three/fiber";
 
-import * as random from "maath/random";
+import { ClippedSpriteGeometry, ClippedFlipbookGeometry } from "@gsimone/bvc";
+import "./materials";
+import { MyFlipbook } from "./components/Flipbook";
+import { MyInstances } from "./components/Instances";
 
-import { ClippedSpriteGeometry } from "@gsimone/bvc";
+import {Perf} from 'r3f-perf'
 
 const MyUVsMaterial = shaderMaterial(
   {},
@@ -79,7 +67,12 @@ const MyBillboardMaterial = shaderMaterial(
 `
 );
 
-extend({ MyUVsMaterial, MyBillboardMaterial, ClippedSpriteGeometry });
+extend({
+  MyUVsMaterial,
+  MyBillboardMaterial,
+  ClippedSpriteGeometry,
+  ClippedFlipbookGeometry,
+});
 
 function Instanced() {
   // const $instancedMesh = useRef<InstancedMesh>();
@@ -122,81 +115,23 @@ function Instanced() {
   );
 }
 
-function MySprite({ map, alphaThreshold, showPolygon, vertices, ...props }) {
-  const ref = useRef<BufferGeometry>(null!);
-  const [reduction, setReduction] = useState(0);
-
-  useLayoutEffect(() => {
-    setReduction(-Math.floor(ref.current.userData.reduction * 100));
-  }, [map, vertices, setReduction, alphaThreshold]);
-
-  return (
-    <group {...props}>
-      <Plane scale={6}>
-        <meshBasicMaterial wireframe transparent opacity={0.125} />
-      </Plane>
-
-      <mesh scale={6}>
-        <clippedSpriteGeometry
-          ref={ref}
-          args={[map.image, vertices, { alphaThreshold }]}
-        />
-        <meshBasicMaterial map={map} transparent />
-      </mesh>
-
-      <mesh scale={6} visible={showPolygon}>
-        <clippedSpriteGeometry
-          args={[map.image, vertices, { alphaThreshold }]}
-        />
-        <meshBasicMaterial wireframe transparent />
-      </mesh>
-      <Text
-        fontSize={0.2}
-        position-y={-3.25}
-        position-x={3}
-        anchorX="right"
-        anchorY="top"
-      >
-        {reduction}%
-      </Text>
-    </group>
-  );
-}
-
 function MyScene({ img }) {
-  const { alphaThreshold, showPolygon, horizontal, vertical } = useControls({
-    alphaThreshold: { value: 0.15, min: 0, max: 1, step: 0.001 },
-    horizontal: 4,
-    vertical: 4,
+  const controls = useControls({
+    alphaThreshold: { value: 0, min: 0, max: 1, step: 0.001 },
+    horizontalSlices: { min: 0, max: 20, step: 1, value: 8 },
+    verticalSlices: { min: 0, max: 20, step: 1, value: 8 },
     showPolygon: true,
   });
 
-  const map = useTexture(img || "/assets/smoke.png");
+  const map = useTexture(img || "/assets/splos.png");
 
   return (
     <>
-      <MySprite
-        alphaThreshold={alphaThreshold}
-        map={map}
-        position-x={-8}
-        showPolygon={showPolygon}
-        vertices={4}
-      />
-
-      <MySprite
-        alphaThreshold={alphaThreshold}
-        map={map}
-        showPolygon={showPolygon}
-        vertices={6}
-      />
-
-      <MySprite
-        alphaThreshold={alphaThreshold}
-        map={map}
-        position-x={8}
-        showPolygon={showPolygon}
-        vertices={8}
-      />
+      <MyInstances map={map} vertices={8} {...controls} />
+      {/* <MyFlipbook map={map} vertices={8} {...controls} /> */}
+      {/* <MySprite map={map} position-x={-8} vertices={4} {...controls} /> */}
+      {/* <MySprite map={map} vertices={6} {...controls} /> */}
+      {/* <MySprite map={map} position-x={8} vertices={8} {...controls} /> */}
     </>
   );
 }
@@ -222,20 +157,22 @@ export default () => {
 
   return (
     <div
-      {...getRootProps()}
+      // {...getRootProps()}
       style={{
         width: "100vw",
         height: "100vh",
       }}
     >
-      <input {...getInputProps()} />
-      <Canvas camera={{ position: [0, 0, 5], zoom: 69 }} orthographic dpr={2}>
+      {/* <input {...getInputProps()} /> */}
+      <Canvas camera={{ position: [0, 0, 5], zoom: 65 }} orthographic dpr={2}>
         <Suspense fallback={null}>
           <MyScene img={img} />
 
-          <color attach="background" args={["#080406"]} />
-
+          <color attach="background" args={["#666"]} />
           <axesHelper />
+          <OrbitControls />
+          
+          <Perf position="bottom-right" />
         </Suspense>
       </Canvas>
     </div>

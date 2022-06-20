@@ -20,3 +20,12 @@ body,
   height: 100vh;
   margin-left: 50vw;
 }
+
+#bvc-image {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  width: 512px;
+  height: 512px;
+}

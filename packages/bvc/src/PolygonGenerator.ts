@@ -5,26 +5,20 @@ import * as buffer from "maath/buffer";
 import { convexhull } from "./deps/convex-hull";
 import { simplifyConvexHull, calcPolygonArea } from "./geometry";
 import { Point } from ".";
+import * as debug from "./debug";
+import { addAxis, createBufferFromListOfPoints, getNeighbours } from "./utils";
 
-const clamp = (value: number, min: number, max: number) =>
-  Math.max(min, Math.min(max, value));
-
-function createBufferFromListOfPoints(points: Point[]) {
-  const buffer = new Float32Array(points.length * 2);
-
-  for (let i = 0; i < points.length; i++) {
-    buffer[i * 2] = points[i].x;
-    buffer[i * 2 + 1] = points[i].y;
-  }
-
-  return buffer;
-}
+const DEFAULT_SETTINGS = {
+  alphaThreshold: 0.01,
+  douglasPeucker: false,
+  horizontalSlices: 1,
+  verticalSlices: 1,
+  horizontalIndex: 0,
+  verticalIndex: 0,
+};
 
 export class PolygonGenerator {
   points: Array<Point> = [];
-
-  alphaThreshold: number;
-  douglasPeucker: boolean;
 
   data: {
     areaReduction: number;
@@ -36,22 +30,22 @@ export class PolygonGenerator {
 
   index: Uint32Array;
   positions: Float32Array;
-  uv: Float32Array;
+
+  defaultSettings = DEFAULT_SETTINGS;
+
+  settings: typeof this.defaultSettings;
 
   constructor(
     img: HTMLImageElement,
-    settings: {
-      alphaThreshold?: number;
-      douglasPeucker?: boolean;
-    },
+    settings: Partial<typeof DEFAULT_SETTINGS>,
     public vertices: number
   ) {
-    this.alphaThreshold = clamp(
-      settings.alphaThreshold || Number.EPSILON,
-      Number.EPSILON,
-      1 - Number.EPSILON
+    this.settings = { ...this.defaultSettings, ...settings };
+
+    this.settings.alphaThreshold = Math.max(
+      this.settings.alphaThreshold,
+      Number.EPSILON
     );
-    this.douglasPeucker = settings.douglasPeucker || false;
 
     const canvas = this.createCanvas("bvc-image", img.width, img.height);
     this.points = this.getPoints(img, canvas);
@@ -60,17 +54,17 @@ export class PolygonGenerator {
 
     const simplified = simplifyConvexHull(convexHull, vertices);
 
-    // this.debug && this.drawConvexHull(convexHull, canvas, "yellow");
-    // this.debug && this.drawConvexHull(simplified, canvas, "white");
-    // this.debug && this.drawOriginalRect(canvas);
+    const size = [this.settings.horizontalSlices, this.settings.verticalSlices];
 
     this.data.areaReduction =
-      1 - calcPolygonArea(simplified) / (img.width * img.height);
+      1 -
+      calcPolygonArea(simplified) /
+        ((img.width / size[0]) * (img.height / size[1]));
 
     const normalized = simplified.map((p) => {
       return {
-        x: (p.x - img.width / 2) / img.width,
-        y: (p.y - img.height / 2) / img.height,
+        x: (p.x - img.width / (2 * size[0])) / (img.width / size[0]),
+        y: (p.y - img.height / (2 * size[1])) / (img.height / size[1]),
       };
     });
 
@@ -83,17 +77,20 @@ export class PolygonGenerator {
     });
 
     // transform the buffer to 3d with 0 z [1, 2, ...] > [1, 2, 0, ...]
-    this.positions = buffer.addAxis(positions, 2, () => 0) as Float32Array;
+    this.positions = addAxis(positions, 2, () => 0) as Float32Array;
     this.index = Uint32Array.from(index);
-    this.uv = buffer.map(positions.slice(0), 2, (v) => {
-      return [v[0] + 0.5, v[1] + 0.5];
-    }) as Float32Array;
+
+    // debug.drawGrid(canvas, size[0], size[1]);
   }
 
-  createCanvas(id = "", width: number, height: number) {
+  createCanvas(id = "debug-canvas", width: number, height: number) {
     const canvas =
       (document.querySelector(`#${id}`) as HTMLCanvasElement) ||
       document.createElement("canvas");
+
+    canvas.id = id;
+
+    // document.body.appendChild(canvas);
 
     canvas.width = width;
     canvas.height = height;
@@ -101,44 +98,6 @@ export class PolygonGenerator {
     canvas.id = id;
 
     return canvas;
-  }
-
-  getNeighbours(i: number, width: number, height: number) {
-    const neighbours = [];
-
-    const x = (i % (width * 4)) / 4;
-    const y = Math.floor(i / (width * 4));
-
-    const top = y - 1;
-    const bottom = y + 1;
-    const left = x - 1;
-    const right = x + 1;
-
-    if (top >= 0) {
-      neighbours.push(top * width + x);
-    } else {
-      neighbours.push(null);
-    }
-
-    if (bottom < height) {
-      neighbours.push(bottom * width + x);
-    } else {
-      neighbours.push(null);
-    }
-
-    if (left >= 0) {
-      neighbours.push(y * width + left);
-    } else {
-      neighbours.push(null);
-    }
-
-    if (right < width) {
-      neighbours.push(y * width + right);
-    } else {
-      neighbours.push(null);
-    }
-
-    return neighbours;
   }
 
   /**
@@ -154,21 +113,61 @@ export class PolygonGenerator {
 
     ctx.drawImage(img, 0, 0);
 
-    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    /**
+     * Indices
+     */
+    const hi = this.settings.horizontalIndex;
+    const vi = this.settings.verticalIndex;
+
+    /**
+     * Number of slices
+     */
+    const hs = this.settings.horizontalSlices;
+    const vs = this.settings.verticalSlices;
+
+    /**
+     * Size of a single slice
+     */
+    const w = canvas.width / hs;
+    const h = canvas.height / vs;
+
+    // get image data for hi, vi
+    const imageData = ctx.getImageData(w * hi, h * vi, w, h);
     const data = imageData.data;
 
     const points = [];
 
-    const checkNeighbours = (n: number | null) =>
-      n !== null && data[n * 4 + 3] / 255 > this.alphaThreshold;
+    const checkPointAlpha = (...rgba: number[]) => {
+      return rgba[3] / 255 > this.settings.alphaThreshold;
+    };
+
+    const checkPointLuminance = (...rgba: number[]) => {
+      const [R, G, B] = rgba;
+
+      return (
+        0.2126 * (R / 255) + 0.7152 * (G / 255) + 0.0722 * (B / 255) >
+        this.settings.alphaThreshold
+      );
+    };
+
+    const checkPointValue = (...rgba: number[]) => {
+      const [R, G, B] = rgba;
+
+      return (R + G + B) / (255 * 3) > this.settings.alphaThreshold;
+    };
+
+    const checkNeighbours =
+      (fn: (...channels: number[]) => boolean) => (n: number | null) =>
+        n !== null &&
+        fn(data[n * 4], data[n * 4 + 1], data[n * 4 + 2], data[n * 4 + 3]);
+
+    const checkFn = checkPointAlpha;
 
     for (let i = 0; i < data.length; i += 4) {
-      const alpha = data[i + 3] / 255;
-
-      if (alpha > this.alphaThreshold) {
-        const neighbours = this.getNeighbours(i, canvas.width, canvas.height);
+      if (checkFn(data[i + 0], data[i + 1], data[i + 2], data[i + 3])) {
+        const neighbours = getNeighbours(i, canvas.width, canvas.height);
         // if neighbour are all opaque, never add point
-        if (neighbours.every(checkNeighbours)) {
+        if (neighbours.every(checkNeighbours(checkFn))) {
           continue;
         }
 
