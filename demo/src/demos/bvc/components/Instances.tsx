@@ -23,6 +23,7 @@ import { materialKey } from "../materials";
 
 type Props = {
   map: Texture;
+  fps: boolean;
   showPolygon: boolean;
   vertices: number;
   horizontalSlices: number;
@@ -31,7 +32,7 @@ type Props = {
 };
 
 export function MyInstances(props: Props) {
-  const { map, vertices, horizontalSlices, verticalSlices, alphaThreshold } =
+  const { map, fps, vertices, horizontalSlices, verticalSlices, alphaThreshold } =
     props;
 
   const [geometry, dataTexture] = useClippedFlipbook(
@@ -69,7 +70,7 @@ export function MyInstances(props: Props) {
     const t = clock.getElapsedTime();
     if ($mat.current) {
       $mat.current.uniforms.u_index.value =
-        Math.floor(t * 60) % (horizontalSlices * verticalSlices);
+        Math.floor(t * fps) % (horizontalSlices * verticalSlices);
     }
   });
 

@@ -59,6 +59,9 @@ export function createClippedFlipbook(
   const positions = new Float32Array(total * vertices * 4);
 
   let candidateGeometry = null;
+  let totalSavings = 0;
+  let minSaving = Infinity;
+  let maxSaving = 0;
 
   /**
    * Generate the geometry for each step in the flipbook and accumulate the positions in a buffer.
@@ -88,6 +91,10 @@ export function createClippedFlipbook(
     const posWithFourElements = addAxis(pos as Float32Array, 3, () => 1);
 
     positions.set(posWithFourElements, posWithFourElements.length * i);
+
+    minSaving = Math.min(minSaving, geometry.userData.reduction);
+    maxSaving = Math.max(maxSaving, geometry.userData.reduction);
+    totalSavings += geometry.userData.reduction;
   }
 
   /**
@@ -111,5 +118,10 @@ export function createClippedFlipbook(
   );
   texture.needsUpdate = true;
 
-  return [candidateGeometry, texture, positions];
+  return [
+    candidateGeometry,
+    texture,
+    positions,
+    { avg: totalSavings / total, min: minSaving, max: maxSaving },
+  ];
 }

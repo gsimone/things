@@ -15,7 +15,7 @@ const createCanvas = (id = "debug-canvas", width: number, height: number) => {
 
   canvas.id = id;
 
-  document.body.appendChild(canvas);
+  // document.body.appendChild(canvas);
 
   canvas.width = width;
   canvas.height = height;
@@ -124,7 +124,7 @@ export class PolygonGenerator {
       return [x, y];
     }) as Float32Array;
 
-    debug.drawGrid(canvas, size[0], size[1]);
+    // debug.drawGrid(canvas, size[0], size[1]);
   }
 
   /**

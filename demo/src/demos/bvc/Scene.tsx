@@ -2,8 +2,8 @@ import { Canvas } from "@react-three/fiber";
 import { useDropzone } from "react-dropzone";
 
 import { OrbitControls, shaderMaterial, useTexture } from "@react-three/drei";
-import { Suspense, useCallback, useState } from "react";
-import { useControls } from "leva";
+import { Suspense, useCallback, useEffect, useState, useTransition } from "react";
+import { folder, useControls } from "leva";
 import { extend } from "@react-three/fiber";
 
 import { ClippedSpriteGeometry, ClippedFlipbookGeometry } from "@gsimone/bvc";
@@ -13,6 +13,7 @@ import { MyInstances } from "./components/Instances";
 
 import { Perf } from "r3f-perf";
 import { MySprite } from "./components/Sprite";
+import { Texture } from "three";
 
 extend({
   ClippedSpriteGeometry,
@@ -20,24 +21,63 @@ extend({
 });
 
 function MyScene({ img }) {
-  const controls = useControls({
+  const controlsA = useControls({
     alphaThreshold: { value: 0, min: 0, max: 1, step: 0.001 },
-    horizontalSlices: { min: 1, max: 20, step: 1, value: 8 },
-    verticalSlices: { min: 1, max: 20, step: 1, value: 8 },
+   
     vertices: { min: 3, max: 12, value: 8, step: 1 },
-    showPolygon: true,
+    debug: folder({
+      fps: { min: 12, max: 120, value: 30 },
+      showPolygon: true,
+    })
   });
 
-  const map = useTexture(img || "/assets/splos.png");
+  const controlsB = useControls({
+    sprite: folder({
+      horizontalSlices: { min: 1, max: 20, step: 1, value: 5 },
+      verticalSlices: { min: 1, max: 20, step: 1, value: 5 },
+    })
+  })
+
+  const controlsC = useControls(
+    {
+      sprite: folder({
+        index: {
+          min: 0,
+          value: 1,
+          max: controlsB.horizontalSlices * controlsB.verticalSlices - 1,
+          step: 1,
+        },
+      }),
+    },
+    [controlsB.horizontalSlices, controlsB.verticalSlices]
+  );
+
+  const [transition, setTransition] = useTransition()
+  const [vertices, setVertices] = useState(8)
+
+  useEffect(() => {
+    setTransition(() => {
+      setVertices(controlsA.vertices)
+    })
+  }, [controlsA.vertices])
+  
+  const controls = {
+    ...controlsA,
+    ...controlsB,
+    ...controlsC,
+    vertices
+  }
+
+  const map = useTexture(img || "/assets/explosion.png") as Texture;
 
   return (
-    <group key={controls.vertices}>
+    <group >
       <group position-x={8} scale={5}>
         <MyInstances map={map} {...controls} />
       </group>
-      <MyFlipbook map={map} {...controls}  />
+      <MyFlipbook map={map} {...controls} />
       <group position-x={-8}>
-        <MySprite map={map} {...controls} />
+        <MySprite map={map} {...controls}  />
       </group>
     </group>
   );
@@ -78,7 +118,7 @@ export default () => {
           <color attach="background" args={["#666"]} />
           <OrbitControls />
 
-          <Perf position="bottom-right" />
+          <Perf position="bottom-right" matrixUpdate />
         </Suspense>
       </Canvas>
     </div>

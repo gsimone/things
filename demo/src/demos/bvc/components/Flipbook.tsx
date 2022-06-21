@@ -1,4 +1,4 @@
-import { Plane } from "@react-three/drei";
+import { Plane, Text } from "@react-three/drei";
 import { useMemo, useRef } from "react";
 
 import { createClippedFlipbook } from "@gsimone/bvc";
@@ -11,7 +11,7 @@ export function useClippedFlipbook(
   vertices: number,
   horizontalSlices: number,
   verticalSlices: number,
-  alphaThreshold: number,
+  alphaThreshold: number
 ): [BufferGeometry, DataTexture] {
   return useMemo(() => {
     return createClippedFlipbook(
@@ -24,8 +24,14 @@ export function useClippedFlipbook(
   }, [image, vertices, horizontalSlices, verticalSlices, alphaThreshold]);
 }
 
+// format number to 2 decimal places
+function format(number: number) {
+  return Math.round(number * 100) / 100;
+}
+
 type MyFlipbookProps = {
   map: Texture;
+  fps: number;
   showPolygon: boolean;
   vertices: number;
   horizontalSlices: number;
@@ -35,6 +41,7 @@ type MyFlipbookProps = {
 
 export function MyFlipbook({
   map,
+  fps = 30,
   showPolygon,
   vertices,
   horizontalSlices,
@@ -45,12 +52,12 @@ export function MyFlipbook({
   const $mat = useRef();
   const $mat2 = useRef();
 
-  const [geometry, dataTexture] = useClippedFlipbook(
+  const [geometry, dataTexture, _, savings] = useClippedFlipbook(
     map.image,
     vertices,
     horizontalSlices,
     verticalSlices,
-    alphaThreshold,
+    alphaThreshold
   );
 
   useFrame(({ clock }) => {
@@ -58,7 +65,7 @@ export function MyFlipbook({
     if ($mat.current && $mat2.current) {
       $mat.current.uniforms.u_index.value =
         $mat2.current.uniforms.u_index.value =
-          Math.floor(t * 60) % (horizontalSlices * verticalSlices);
+          Math.floor(t * fps) % (horizontalSlices * verticalSlices);
     }
   });
 
@@ -106,6 +113,15 @@ export function MyFlipbook({
           u_verticalSlices={verticalSlices}
         />
       </mesh>
+      <Text
+        fontSize={0.2}
+        position-y={-3.25}
+        position-x={3}
+        anchorX="right"
+        anchorY="top"
+      >
+        avg {format(savings.avg * 100)}% - min {format(savings.min * 100)}% - max {format(savings.max * 100)}%
+      </Text>
     </group>
   );
 }

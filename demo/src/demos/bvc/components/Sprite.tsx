@@ -1,24 +1,11 @@
 import { Billboard, Plane, Text } from "@react-three/drei";
-import { useControls } from "leva";
+import { folder, useControls } from "leva";
 import { useLayoutEffect, useRef, useState } from "react";
 import { BufferGeometry } from "three";
 
-export function MySprite({ map, vertices, scale, ...props }) {
+export function MySprite({ map, index, vertices, showPolygon, ...props }) {
   const ref = useRef<BufferGeometry>(null!);
   const [reduction, setReduction] = useState(0);
-
-  const { index, showPolygon } = useControls(
-    {
-      index: {
-        min: 0,
-        value: 34,
-        max: props.horizontalSlices * props.verticalSlices,
-        step: 1,
-      },
-      showPolygon: false,
-    },
-    [props.horizontalSlices, props.verticalSlices]
-  );
 
   const horizontalIndex = index % props.horizontalSlices;
   const verticalIndex = Math.floor(index / props.horizontalSlices);
@@ -33,7 +20,6 @@ export function MySprite({ map, vertices, scale, ...props }) {
     props.alphaThreshold,
     horizontalIndex,
     verticalIndex,
-    scale
   ]);
 
   return (
@@ -50,7 +36,7 @@ export function MySprite({ map, vertices, scale, ...props }) {
           args={[
             map.image,
             vertices,
-            { ...props, scale, horizontalIndex, verticalIndex },
+            { ...props, horizontalIndex, verticalIndex },
           ]}
         />
         <myBillboardMaterial
@@ -66,7 +52,7 @@ export function MySprite({ map, vertices, scale, ...props }) {
           args={[
             map.image,
             vertices,
-            { ...props, scale, horizontalIndex, verticalIndex },
+            { ...props, horizontalIndex, verticalIndex },
           ]}
         />
         <myUVsMaterial depthTest={false} wireframe transparent />
