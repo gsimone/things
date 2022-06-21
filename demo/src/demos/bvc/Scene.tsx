@@ -34,7 +34,7 @@ function MyScene({ img }) {
       <MyInstances map={map} vertices={8} {...controls} />
       {/* <MyFlipbook map={map} vertices={8} {...controls} /> */}
       {/* <MySprite map={map} position-x={-8} vertices={4} {...controls} /> */}
-      {/* <MySprite map={map} {...controls} /> */}
+      <MySprite map={map} {...controls} />
       {/* <MySprite map={map} position-x={8} vertices={8} {...controls} /> */}
     </>
   );

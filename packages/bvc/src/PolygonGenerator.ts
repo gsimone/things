@@ -1,22 +1,13 @@
 // @ts-ignore
 import earcut from "earcut";
 import * as buffer from "maath/buffer";
+import * as misc from "maath/misc";
 
 import { convexhull, simplifyConvexHull, calcPolygonArea } from "./geometry";
 import { Point } from ".";
-import * as debug from "./debug";
 import { addAxis, createBufferFromListOfPoints, getNeighbours } from "./utils";
 
-const DEFAULT_SETTINGS = {
-  alphaThreshold: 0.01,
-  douglasPeucker: false,
-  horizontalSlices: 1,
-  verticalSlices: 1,
-  horizontalIndex: 0,
-  verticalIndex: 0,
-};
-
-function createCanvas(id = "debug-canvas", width: number, height: number) {
+const createCanvas = (id = "debug-canvas", width: number, height: number) => {
   const canvas =
     (document.querySelector(`#${id}`) as HTMLCanvasElement) ||
     document.createElement("canvas");
@@ -31,7 +22,32 @@ function createCanvas(id = "debug-canvas", width: number, height: number) {
   canvas.id = id;
 
   return canvas;
-}
+};
+
+const normalizePositions = (
+  p: Point,
+  imageSize: number[],
+  horizontalSlices: number,
+  verticalSlices: number
+) => {
+  return {
+    x:
+      (p.x - imageSize[0] / (2 * horizontalSlices)) /
+      (imageSize[0] / horizontalSlices),
+    y:
+      (p.y - imageSize[1] / (2 * verticalSlices)) /
+      (imageSize[1] / verticalSlices),
+  };
+};
+
+const DEFAULT_SETTINGS = {
+  alphaThreshold: 0.01,
+  douglasPeucker: false,
+  horizontalSlices: 1,
+  verticalSlices: 1,
+  horizontalIndex: 0,
+  verticalIndex: 0,
+};
 
 export class PolygonGenerator {
   points: Array<Point> = [];
@@ -78,17 +94,15 @@ export class PolygonGenerator {
       calcPolygonArea(simplified) /
         ((img.width / size[0]) * (img.height / size[1]));
 
-    const normalized = simplified.map((p) => {
-      return {
-        x: (p.x - img.width / (2 * size[0])) / (img.width / size[0]),
-        y: (p.y - img.height / (2 * size[1])) / (img.height / size[1]),
-      };
-    });
+    const normalized = simplified.map((p) =>
+      normalizePositions(p, [img.width, img.height], size[0], size[1])
+    );
 
-    // make a buffer from the simplified points since earcut requires ut
+    // make a buffer from the simplified points since earcut requires it
     const positions = createBufferFromListOfPoints(normalized);
     const index = earcut(positions, null, 2).reverse();
 
+    // Invert y
     buffer.map(positions, 2, (v) => {
       return [v[0], -1 * v[1]];
     });
@@ -153,6 +167,7 @@ export class PolygonGenerator {
 
     /**
      * @TODO find a better API for this. The user should be able to either choose a test or pass one.
+     * These should also all implement a common interface
      */
     const checkPointAlpha = (...rgba: number[]) => {
       return rgba[3] / 255 > this.settings.alphaThreshold;
@@ -174,9 +189,9 @@ export class PolygonGenerator {
     };
 
     const checkNeighbours =
-      (fn: (...channels: number[]) => boolean) => (n: number | null) =>
+      (checkFn: (...channels: number[]) => boolean) => (n: number | null) =>
         n !== null &&
-        fn(data[n * 4], data[n * 4 + 1], data[n * 4 + 2], data[n * 4 + 3]);
+        checkFn(data[n * 4], data[n * 4 + 1], data[n * 4 + 2], data[n * 4 + 3]);
 
     const checkFn = checkPointAlpha;
 
@@ -188,9 +203,9 @@ export class PolygonGenerator {
           continue;
         }
 
-        const x = (i % (imageData.width * 4)) / 4;
-        const y = Math.floor(i / (imageData.width * 4));
-        points.push({ x, y });
+        const [x, y] = misc.get2DFromIndex(i / 4, imageData.width);
+
+        points.push({ x: x, y });
       }
     }
 

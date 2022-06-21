@@ -55,13 +55,16 @@ export function createClippedFlipbook(
   verticalSlices: number,
   alphaThreshold: number
 ): [BufferGeometry, DataTexture] {
-  const t0 = performance.now();
-
   const total = horizontalSlices * verticalSlices;
   const positions = new Float32Array(total * vertices * 4);
 
   let candidateGeometry = null;
 
+  /**
+   * Generate the geometry for each step in the flipbook and accumulate the positions in a buffer.
+   * keep one of the generated geometries as the initial one.
+   * We could also have a uvs buffer but uvs are very easily calculated in the shader with some multiplications.
+   */
   for (let i = 0; i < total; i++) {
     const geometry = new ClippedSpriteGeometry(image, vertices, {
       horizontalSlices,
@@ -90,7 +93,10 @@ export function createClippedFlipbook(
   /**
    * We can safely 0-initialize the all elements of the positions array since positions are going to be set in the vertex shader anyway.
    */
-  // (candidateGeometry!.getAttribute("position").array as Float32Array).map(() => 0);
+  (candidateGeometry!.getAttribute("position").array as Float32Array).map(
+    () => 0
+  );
+
   /**
    * UVs are not necessary for the flipbook as they are calculated per-position and per-frame with simple operations.
    */
@@ -106,7 +112,6 @@ export function createClippedFlipbook(
   texture.needsUpdate = true;
 
   const t1 = performance.now();
-  console.log(t1 - t0);
 
-  return [candidateGeometry, texture];
+  return [candidateGeometry, texture, positions];
 }
