@@ -6,6 +6,7 @@ import * as misc from "maath/misc";
 import { convexhull, simplifyConvexHull, calcPolygonArea } from "./geometry";
 import { Point } from ".";
 import { addAxis, createBufferFromListOfPoints, getNeighbours } from "./utils";
+import * as debug from "./debug";
 
 const createCanvas = (id = "debug-canvas", width: number, height: number) => {
   const canvas =
@@ -14,7 +15,7 @@ const createCanvas = (id = "debug-canvas", width: number, height: number) => {
 
   canvas.id = id;
 
-  // document.body.appendChild(canvas);
+  document.body.appendChild(canvas);
 
   canvas.width = width;
   canvas.height = height;
@@ -47,6 +48,7 @@ const DEFAULT_SETTINGS = {
   verticalSlices: 1,
   horizontalIndex: 0,
   verticalIndex: 0,
+  scale: 1.02,
 };
 
 export class PolygonGenerator {
@@ -75,37 +77,34 @@ export class PolygonGenerator {
   ) {
     this.settings = { ...this.defaultSettings, ...settings };
 
-    this.settings.alphaThreshold = Math.max(
-      this.settings.alphaThreshold,
-      Number.EPSILON
-    );
-
     const canvas = createCanvas("bvc-image", img.width, img.height);
     this.points = this.getPoints(img, canvas);
 
     let convexHull = this.calculateConvexHull(this.points);
 
-    const simplified = simplifyConvexHull(convexHull, vertices);
-
     const size = [this.settings.horizontalSlices, this.settings.verticalSlices];
+
+    const simplified = simplifyConvexHull(convexHull, vertices);
+    const normalized = simplified.map((p) => {
+      let np = normalizePositions(p, [img.width, img.height], size[0], size[1]);
+
+      // invert y
+      np.y = -1 * np.y;
+
+      return np;
+    });
+
+    const { scale } = this.settings;
 
     this.data.areaReduction =
       1 -
-      calcPolygonArea(simplified) /
-        ((img.width / size[0]) * (img.height / size[1]));
-
-    const normalized = simplified.map((p) =>
-      normalizePositions(p, [img.width, img.height], size[0], size[1])
-    );
+      (calcPolygonArea(simplified) /
+        ((img.width / size[0]) * (img.height / size[1]))) *
+        scale;
 
     // make a buffer from the simplified points since earcut requires it
     const positions = createBufferFromListOfPoints(normalized);
-    const index = earcut(positions, null, 2).reverse();
-
-    // Invert y
-    buffer.map(positions, 2, (v) => {
-      return [v[0], -1 * v[1]];
-    });
+    const index = earcut(positions, null, 2);
 
     // transform the buffer to 3d with 0 z [1, 2, ...] > [1, 2, 0, ...]
     this.positions = addAxis(positions, 2, () => 0) as Float32Array;
@@ -125,7 +124,7 @@ export class PolygonGenerator {
       return [x, y];
     }) as Float32Array;
 
-    // debug.drawGrid(canvas, size[0], size[1]);
+    debug.drawGrid(canvas, size[0], size[1]);
   }
 
   /**
@@ -170,7 +169,7 @@ export class PolygonGenerator {
      * These should also all implement a common interface
      */
     const checkPointAlpha = (...rgba: number[]) => {
-      return rgba[3] / 255 > this.settings.alphaThreshold;
+      return rgba[3] / 255 > 0;
     };
 
     const checkPointLuminance = (...rgba: number[]) => {
@@ -193,7 +192,7 @@ export class PolygonGenerator {
         n !== null &&
         checkFn(data[n * 4], data[n * 4 + 1], data[n * 4 + 2], data[n * 4 + 3]);
 
-    const checkFn = checkPointAlpha;
+    const checkFn = checkPointLuminance;
 
     for (let i = 0; i < data.length; i += 4) {
       if (checkFn(data[i + 0], data[i + 1], data[i + 2], data[i + 3])) {

@@ -57,7 +57,9 @@ const MyMaterial = shaderMaterial(
     vec3 pos = getPositionFromDataTexture( u_data, gl_VertexID, u_vertices, u_horizontalSlices, u_verticalSlices, offsetIndex );
     vUv = flipbookUv( pos.xy, u_horizontalSlices, u_verticalSlices, offsetIndex );
 
-    pos = (instanceMatrix * vec4(pos, 1.0)).xyz;
+    #ifdef USE_INSTANCING
+      pos = (instanceMatrix * vec4(pos, 1.0)).xyz;
+    #endif
 
     pos = billboard( pos.xy, viewMatrix );
 
@@ -114,11 +116,15 @@ const MyBillboardMaterial = shaderMaterial(
   void main () {
     vUv = uv;
 
-    vec3 transformed = position;
+    vec4 transformed = vec4(position, 1.);
 
-    transformed = billboard(transformed.xy, viewMatrix);
+    transformed = vec4(billboard(transformed.xy, viewMatrix), 1.);
 
-    gl_Position = projectionMatrix * modelViewMatrix * instanceMatrix * vec4(transformed, 1.0);
+    #ifdef USE_INSTANCING
+      transformed = instanceMatrix * transformed;
+    #endif
+    
+    gl_Position = projectionMatrix * modelViewMatrix * transformed;
   }
 `,
   /* glsl */ `

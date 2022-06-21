@@ -87,6 +87,7 @@ export function MyInstances(props: Props) {
         u_data={dataTexture}
         u_horizontalSlices={horizontalSlices}
         u_map={map}
+        u_vertices={vertices}
         u_verticalSlices={verticalSlices}
         transparent
       />

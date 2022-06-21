@@ -1,17 +1,24 @@
-import { Plane, Text } from "@react-three/drei";
+import { Billboard, Plane, Text } from "@react-three/drei";
 import { useControls } from "leva";
 import { useLayoutEffect, useRef, useState } from "react";
 import { BufferGeometry } from "three";
 
-export function MySprite({ map, ...props }) {
+export function MySprite({ map, vertices, scale, ...props }) {
   const ref = useRef<BufferGeometry>(null!);
   const [reduction, setReduction] = useState(0);
 
-  const { index, vertices, showPolygon } = useControls({
-    index: { min: 0, value: 0, max: props.horizontalSlices * props.verticalSlices, step: 1 },
-    vertices: { min: 3, max: 12, value: 6, step: 1 },
-    showPolygon: false,
-  }, [props.horizontalSlices, props.verticalSlices])
+  const { index, showPolygon } = useControls(
+    {
+      index: {
+        min: 0,
+        value: 34,
+        max: props.horizontalSlices * props.verticalSlices,
+        step: 1,
+      },
+      showPolygon: false,
+    },
+    [props.horizontalSlices, props.verticalSlices]
+  );
 
   const horizontalIndex = index % props.horizontalSlices;
   const verticalIndex = Math.floor(index / props.horizontalSlices);
@@ -26,13 +33,16 @@ export function MySprite({ map, ...props }) {
     props.alphaThreshold,
     horizontalIndex,
     verticalIndex,
+    scale
   ]);
 
   return (
     <group {...props}>
-      <Plane scale={6}>
-        <meshBasicMaterial wireframe transparent opacity={0.125} />
-      </Plane>
+      <Billboard>
+        <Plane scale={6}>
+          <meshBasicMaterial wireframe transparent opacity={0.125} />
+        </Plane>
+      </Billboard>
 
       <mesh scale={6}>
         <clippedSpriteGeometry
@@ -40,10 +50,15 @@ export function MySprite({ map, ...props }) {
           args={[
             map.image,
             vertices,
-            { ...props, horizontalIndex, verticalIndex },
+            { ...props, scale, horizontalIndex, verticalIndex },
           ]}
         />
-        <meshBasicMaterial map={map} transparent alphaTest={props.alphaThreshold} />
+        <myBillboardMaterial
+          map={map}
+          transparent
+          alphaTest={props.alphaThreshold}
+          alphaMap={map}
+        />
       </mesh>
 
       <mesh scale={6} visible={showPolygon}>
@@ -51,10 +66,10 @@ export function MySprite({ map, ...props }) {
           args={[
             map.image,
             vertices,
-            { ...props, horizontalIndex, verticalIndex },
+            { ...props, scale, horizontalIndex, verticalIndex },
           ]}
         />
-        <meshBasicMaterial wireframe transparent />
+        <myUVsMaterial depthTest={false} wireframe transparent />
       </mesh>
       <Text
         fontSize={0.2}

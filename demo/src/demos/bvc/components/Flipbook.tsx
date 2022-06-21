@@ -11,7 +11,7 @@ export function useClippedFlipbook(
   vertices: number,
   horizontalSlices: number,
   verticalSlices: number,
-  alphaThreshold: number
+  alphaThreshold: number,
 ): [BufferGeometry, DataTexture] {
   return useMemo(() => {
     return createClippedFlipbook(
@@ -50,7 +50,7 @@ export function MyFlipbook({
     vertices,
     horizontalSlices,
     verticalSlices,
-    alphaThreshold
+    alphaThreshold,
   );
 
   useFrame(({ clock }) => {
@@ -88,6 +88,7 @@ export function MyFlipbook({
           u_debugUv={1}
           u_horizontalSlices={horizontalSlices}
           u_map={map}
+          u_vertices={vertices}
           u_verticalSlices={verticalSlices}
           wireframe
         />
@@ -101,6 +102,7 @@ export function MyFlipbook({
           u_data={dataTexture}
           u_horizontalSlices={horizontalSlices}
           u_map={map}
+          u_vertices={vertices}
           u_verticalSlices={verticalSlices}
         />
       </mesh>

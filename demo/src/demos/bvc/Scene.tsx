@@ -22,21 +22,24 @@ extend({
 function MyScene({ img }) {
   const controls = useControls({
     alphaThreshold: { value: 0, min: 0, max: 1, step: 0.001 },
-    horizontalSlices: { min: 1, max: 20, step: 1, value: 1 },
-    verticalSlices: { min: 1, max: 20, step: 1, value: 1 },
+    horizontalSlices: { min: 1, max: 20, step: 1, value: 8 },
+    verticalSlices: { min: 1, max: 20, step: 1, value: 8 },
+    vertices: { min: 3, max: 12, value: 8, step: 1 },
     showPolygon: true,
   });
 
   const map = useTexture(img || "/assets/splos.png");
 
   return (
-    <>
-      <MyInstances map={map} vertices={8} {...controls} />
-      {/* <MyFlipbook map={map} vertices={8} {...controls} /> */}
-      {/* <MySprite map={map} position-x={-8} vertices={4} {...controls} /> */}
-      <MySprite map={map} {...controls} />
-      {/* <MySprite map={map} position-x={8} vertices={8} {...controls} /> */}
-    </>
+    <group key={controls.vertices}>
+      <group position-x={8} scale={5}>
+        <MyInstances map={map} {...controls} />
+      </group>
+      <MyFlipbook map={map} {...controls}  />
+      <group position-x={-8}>
+        <MySprite map={map} {...controls} />
+      </group>
+    </group>
   );
 }
 
@@ -73,7 +76,6 @@ export default () => {
           <MyScene img={img} />
 
           <color attach="background" args={["#666"]} />
-          <axesHelper />
           <OrbitControls />
 
           <Perf position="bottom-right" />

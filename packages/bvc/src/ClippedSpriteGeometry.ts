@@ -111,7 +111,5 @@ export function createClippedFlipbook(
   );
   texture.needsUpdate = true;
 
-  const t1 = performance.now();
-
   return [candidateGeometry, texture, positions];
 }
